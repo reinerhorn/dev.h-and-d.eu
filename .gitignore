@@ -4,6 +4,7 @@ logs/
 tmp/
 private/
 dev/
+config/
 
 # Bestimmte Dateien ignorieren
 config.php
