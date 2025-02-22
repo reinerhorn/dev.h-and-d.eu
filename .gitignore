@@ -1,0 +1,13 @@
+# Verzeichnisse ignorieren
+node_modules/
+logs/
+tmp/
+private/
+
+# Bestimmte Dateien ignorieren
+config.php
+.env
+debug.log
+
+# Alle .log-Dateien ignorieren
+*.log
