@@ -3,11 +3,13 @@ node_modules/
 logs/
 tmp/
 private/
+dev/
 
 # Bestimmte Dateien ignorieren
 config.php
 .env
 debug.log
+.gitignore
 
 # Alle .log-Dateien ignorieren
 *.log
@@ -22,4 +24,9 @@ tmp/
 # Alle .DS_STORE ignorieren
 dev
 **/**/dev
+.history
+
+# Alle .DS_STORE ignorieren
+.ignorieren
+**/**/.ignorieren
 .history
