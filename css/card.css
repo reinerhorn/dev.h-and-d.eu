@@ -1,0 +1,75 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.top .card {
+    width: 300px;
+}
+
+.middle {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    gap: 20px;
+}
+
+.middle .left,
+.middle .right {
+    width: 300px;
+}
+
+.bottom .card {
+    width: 300px;
+}
+
+.card_container {  
+    margin: 2em;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	 
+}
+.three, .one {
+	display: flex;
+	flex-direction: rows;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+	width: 100%;
+}
+.three {
+	background-color: transparent;
+}
+.one {
+	margin-top: 20px;
+	background-color: transparent;
+}
+.one div,
+.three div {
+	width: 300px;
+	border-top: 6px solid darkred;
+	padding: 10px;
+	border-radius: 20px;
+	background-color: white;
+	box-shadow: 0 10px 10px rgba(0,0,0,0.3);
+}
+.three div:nth-child(1),
+.three div:nth-child(3) {
+	position: relative;
+	top: 100px;
+}
+
+.input_color {
+	color: #000000;
+}	

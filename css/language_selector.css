@@ -1,0 +1,35 @@
+#LanguageSelector {
+  z-index: 4;
+  position: absolute;
+  display: block;
+  top: 20px;
+  right: 20px;
+  background-color: rgb(102, 102, 102);
+  border-radius: 8px;
+  font-family: "robotocondensed";
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  line-height: 20px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#LanguageSelector .list {
+  display: none;
+}
+
+#LanguageSelector .list a {
+  display: block;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  line-height: 20px;
+}
+
+#LanguageSelector .list a:hover {
+  background-color: #dddddd;
+}
+ 
+#LanguageSelector .list a:nth-child(even) {
+  background-color: #dddddd;
+}
