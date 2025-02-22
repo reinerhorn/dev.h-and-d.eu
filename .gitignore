@@ -18,3 +18,8 @@ tmp/
 .DS_Store
 **/**/.DS_Store
 .history
+
+# Alle .DS_STORE ignorieren
+dev
+**/**/dev
+.history
