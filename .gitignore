@@ -6,6 +6,7 @@ private/
 dev/
 config/
 .vscode/
+.gitignore
 
 # Bestimmte Dateien ignorieren
 config.php
