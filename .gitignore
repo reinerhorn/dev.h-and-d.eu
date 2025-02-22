@@ -14,3 +14,7 @@ debug.log
 logs/
 private/
 tmp/
+# Alle .DS_STORE ignorieren
+.DS_Store
+**/**/.DS_Store
+.history
