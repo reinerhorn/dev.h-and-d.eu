@@ -11,3 +11,6 @@ debug.log
 
 # Alle .log-Dateien ignorieren
 *.log
+logs/
+private/
+tmp/
