@@ -10,6 +10,7 @@ config.php
 .env
 debug.log
 .gitignore
+handd.erd.json
 
 # Alle .log-Dateien ignorieren
 *.log
@@ -21,12 +22,12 @@ tmp/
 **/**/.DS_Store
 .history
 
-# Alle .DS_STORE ignorieren
+# Alle .DEV ignorieren
 dev
 **/**/dev
 .history
 
-# Alle .DS_STORE ignorieren
-.ignorieren
-**/**/.ignorieren
+# Alle .erd ignorieren
+handd.erd.json
+**/**/handd.erd.json
 .history
