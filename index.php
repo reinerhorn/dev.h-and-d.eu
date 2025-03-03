@@ -1,14 +1,11 @@
-<?php
+<?php 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php"; 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
- 
 ?>
- php dateiname.php
 <!DOCTYPE html>
-
-</style>
 <html lang="de">
 <head> 
 <meta charset="UTF-8">
@@ -24,11 +21,9 @@ ini_set('display_errors', 1);
 <meta property="og:site_name" content="H & D Dienstleistung">
 <meta property="og:url" content="montagedienst.goip.de">
 <meta property="og:type" content="website">
-<meta property="og:image" content="/images/hd-logo.svg">
 <meta property="og:image:width" content="200">
 <meta property="og:image:height" content="200">
-<meta property="og:image:type" content="images/icon/ico">
-<meta property="og:image:type" content="images/svg">
+<meta property="og:image:type" content="image/svg+xml">
 <meta name="theme-color" content="#ff0000">
     <title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen"> 
@@ -38,13 +33,7 @@ ini_set('display_errors', 1);
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/card.css" media="screen">
     <link rel="icon" href="/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/images/icon/favicon.ico">
-
-  
-    body {
-        background-color: red !important;
-    }
-</style>
+    <link rel="apple-touch-icon" href="/images/icon/favicon.ico">   
 <?php
     if(isset($_REQUEST['language'])) {
       # Vorrang - das ist das Sprachwahlmenue
@@ -59,6 +48,7 @@ ini_set('display_errors', 1);
       $language = "de";
     }
     $_SESSION['language'] = $language;
+
 ?>
   <script src="/function/js/editor.js"></script>
   <script src="/function/js/language_selector.js"></script>
@@ -67,21 +57,38 @@ ini_set('display_errors', 1);
 
   <header>
     <?php
-  $page="";
-  $stmt = $connection->prepare('SELECT * FROM header LIMIT 1');
+  $page = $_GET['id'] ?? '2023-09-12 12:53:59';
+  $stmt = $connection->prepare('SELECT * FROM header WHERE id = ?');
+  $stmt->bind_param("s", $page);
   $stmt->execute();
   $header_result = $stmt->get_result();
-  if($rec = $header_result->fetch_assoc()) {
-    $text = $rec['text'];
-    $link = $rec['link'];
-    $images = $rec['images'];
-    $label = $rec['label'];
-    $css = $rec['css'];
+  
+  // Standardwerte setzen
+  $text = "Kein Text gefunden";
+  $link = "#";
+  $images = "";
+  $label = "Standard-Label";
+  $css = "";
+  
+  if ($rec = $header_result->fetch_assoc()) {
+      $text     = $rec['text'] ?? $text;
+      $link     = $rec['link'] ?? $link;
+      $images   = $rec['images'] ?? $images;
+      $label    = $rec['label'] ?? $label;
+      $css      = $rec['css'] ?? $css;
   }
-  echo '<div class="' . htmlspecialchars($css, ENT_QUOTES, 'UTF-8') . '"><a title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '"><img class="logo" src="' . htmlspecialchars($images, ENT_QUOTES, 'UTF-8') . '" alt="logo"></a><a class="companyname" title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($text, ENT_QUOTES, 'UTF-8') . '</a></div>';
-  /*$stmt->close();*/
+
+  echo '<div class="' . htmlspecialchars($css, ENT_QUOTES, 'UTF-8') . '">
+  <a title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '">
+  <embed class="logo" type="image/svg+xml" src="/images/hd-logo.svg">
+  </a>
+  <a class="companyname" title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($text, ENT_QUOTES, 'UTF-8') . '</a>
+</div>';
+ 
 ?>
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php' ?> 
+  
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php';?>
+ 
 <navi>
     <div id="Navigation">
         <?php
@@ -169,6 +176,7 @@ if (!isset($connection)) {
     die('<p>Fehler: Datenbankverbindung nicht gesetzt.</p>');
 }
 
+
 $stmt = $connection->prepare('SELECT headline, link, language, label, version FROM footer LIMIT 1');
 if ($stmt) {
     $stmt->execute();
@@ -188,6 +196,10 @@ if ($stmt) {
     $link = '#';
     $label = 'Fehler';
     $version = '';
+}
+
+if (!$stmt->execute()) {
+    die("SQL-Fehler: " . $stmt->error);
 }
 // XSS-Schutz
 $headline = htmlspecialchars($headline, ENT_QUOTES, 'UTF-8');

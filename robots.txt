@@ -1,5 +1,0 @@
-user-agent: *
-disallow: /login
-disallow: /mitglieder
-disallow: /php
-disallow: /form
