@@ -9,7 +9,7 @@ config/
 .gitignore
 
 # Bestimmte Dateien ignorieren
-config.php
+config.ini.php
 .env
 debug.log
 .gitignore
