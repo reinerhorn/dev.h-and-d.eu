@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
+#require_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
 $connection = getDbConnection();
 
 $id = "";

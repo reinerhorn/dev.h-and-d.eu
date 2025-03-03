@@ -71,7 +71,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php";
     $label = $rec['label'];
     $css = $rec['css'];
   }
-  echo '<div class="' . htmlspecialchars($css, ENT_QUOTES, 'UTF-8') . '"><a title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '"><img class="logo" src="' . htmlspecialchars($images, ENT_QUOTES, 'UTF-8') . '" alt="logo"></a><a class="companyname" title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($text, ENT_QUOTES, 'UTF-8') . '</a></div>';
+  echo '<div class=' . $css . '><a title="' . $label . '" href="' . $link . '"><img class="logo" src="' . $images .'" alt="logo"></a><a class="companyname" title="'. $label . '" href="' . $link . '">' . $text . '</a></div>';
   /*$stmt->close();*/
 ?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php' ?> 
