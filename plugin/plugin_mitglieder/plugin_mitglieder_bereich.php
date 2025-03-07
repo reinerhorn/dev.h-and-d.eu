@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
  
  // Direkten Zugriff verhindern
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {

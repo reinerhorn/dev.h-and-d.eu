@@ -161,7 +161,7 @@ if (isset($_POST['action'])) {
                 echo '<option>keine Tabelle zugewiesen</option>';
             }
         }
-        $$stmt->close();
+       /* $$stmt->close();*/
     ?>
     </select>
    <br><br>

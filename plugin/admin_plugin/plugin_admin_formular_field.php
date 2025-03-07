@@ -4,8 +4,8 @@ if (!isset($_SESSION['admin_a'])) {
     exit();
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php"; // Stelle sicher, dass die Datenbankverbindung korrekt eingebunden ist
-$connection = getDbConnection();
+#require_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php"; // Stelle sicher, dass die Datenbankverbindung korrekt eingebunden ist
+#$connection = getDbConnection();
 
 $id = "";
 $label = "";

@@ -1,5 +1,8 @@
-<header>
+ 
     <?php
+if (!isset($main_db_connection)) {
+  die('<p>Fehler: Datenbankverbindung nicht gesetzt.</p>');
+}
   $page="";
   $stmt = $main_db_connection->prepare('SELECT * FROM header LIMIT 1');
   $stmt->execute();

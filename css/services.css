@@ -1,54 +1,92 @@
- .flex_container {
-  top: 80px;
+/* Gesamtcontainer - Perfekt zentriert mit mehr Abstand nach oben */
+.flex_container {
   display: flex;
   flex-direction: column;
+  align-items: center; /* Horizontale Zentrierung */
+  justify-content: center; /* Vertikale Zentrierung */
+  height: 100vh;
+  width: 100%;
   gap: 20px;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  line-height: 20px;
-}
-.button {
- margin-top:10px;
-  color: rgb(244, 185, 8);
-  font-size: 12px;
-  font-family: "robotocondensed";
-  text-decoration: none;
-  background-image: linear-gradient(217deg, rgb(0, 1, 2), rgba(15, 31, 237, 0.98) 46.22%, rgb(1, 1, 1) 81.93%) !important;
-  border-radius: 17% 17% 30% 30%; 
-  border-color: aliceblue;
-  padding-left: 20px;
-  padding-right: 20px;
-  line-height: 20px;
-}
-div.button:hover {
-  color: var(--normalcolorwhite);
-  box-shadow: 0 8px 16px 0 rgba(127, 105, 234, 0.2), 0 6px 20px 0 rgba(241, 229, 6, 0.816);
-  border-color: rgb(242, 242, 245);
-}
-.div.button-text {
-  color: rgba(249, 224, 0, 0.859) !important;
-  text-decoration: none;
-}
-.div.button-text:hover {
-  color: aliceblue;
-}
-.flex-box {
-	display:flex; 
-}
-.container {
-  display: flex;
-}
-.column {
-  flex: 2;
-  padding: 10px;
-  text-align: center;
+  margin-top: 100px; /* Mehr Abstand zum oberen Rand */
 }
 
-.label-text{
-  color:rgb(226, 83, 5) !important;
+/* Falls das Fenster kleiner wird */
+@media (max-height: 800px) {
+  .flex_container {
+      height: auto;
+      min-height: 70vh;
+      margin-top: 80px; /* Weniger Abstand bei kleinen Bildschirmen */
+  }
 }
- 
-.input_color {
-	color: #000000;
-}	
+
+/* Falls das Fenster sehr groß ist */
+@media (min-height: 1200px) {
+  .flex_container {
+      min-height: 85vh;
+      margin-top: 120px; /* Noch mehr Abstand bei großen Bildschirmen */
+  }
+}
+
+/* Button-Gruppe */
+.button-group {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Formularbox */
+.form-box {
+  background: rgb(9, 9, 9);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Fixe Maximalbreite */
+  text-align: center;
+  margin: auto; /* Falls Flexbox nicht greift */
+}
+
+/* Eingabegruppen */
+.form-group {
+  position: relative;
+  margin-bottom: 15px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+/* Checkbox */
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.form-check input {
+  width: 16px;
+  height: 16px;
+}
+
+.form-check label {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 500px) {
+  .form-box {
+      width: 90%;
+  }
+
+  .button-group {
+      flex-direction: column;
+      align-items: center;
+  }
+}

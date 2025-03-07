@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                while ($page = $result->fetch_assoc()) {
                    echo '<option value="' . htmlspecialchars($page['id']) . '">' . htmlspecialchars($page['label']) . '</option>' . PHP_EOL;
                }
-               $stmt->close();
+              /* $stmt->close();*/
            ?>
        </select>
        <br><br>
