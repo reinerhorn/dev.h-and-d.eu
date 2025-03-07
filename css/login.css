@@ -110,6 +110,8 @@ div.box:hover {
     animation:inputHighlighter 0.3s ease;
   }
 
+  
+
   @-webkit-keyframes inputHighlighter {
     from { background:#4d6be1; }
     to { width:0; background:transparent; }

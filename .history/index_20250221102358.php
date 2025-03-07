@@ -3,14 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php";
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
 
 ?>
-</style>
- body {
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center; /* Zentriert den Inhalt */
-  align-items: center; /* Zentriert alles horizontal */
-}
- </style>
+
 <!DOCTYPE html>
 <html lang="de">
 <head> 

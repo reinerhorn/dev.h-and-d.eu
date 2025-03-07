@@ -86,7 +86,7 @@ if (isset($_POST['action'])) {
            while($rec = $result->fetch_assoc()) {
                echo '<option value="' . $rec['id'] . '">' . $rec['label'] .'</option>' . PHP_EOL;
            }
-           $stmt->close();
+          /* $stmt->close();*/
        ?>
    </select>
    <br><br>

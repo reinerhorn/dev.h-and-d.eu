@@ -1,5 +1,9 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";  
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php")) {
+    die("Fehler: config.inc.php wurde nicht gefunden.");
+}
+
 $connection=getDbConnection();
 // Session-Cookie-Parameter vor session_start() setzen
 $inactive = 1800; // 30 Minuten Inaktivität

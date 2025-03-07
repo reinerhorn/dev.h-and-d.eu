@@ -1,7 +1,10 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
 
-$db_connector = getDbConnection();
+#$db_connector = getDbConnection();
 
 // SQL-Abfrage, um mehrere Karten mit zugehörigem Inhalt zu laden
 $sql = "

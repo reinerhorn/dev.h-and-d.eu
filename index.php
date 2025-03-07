@@ -1,40 +1,27 @@
-<?php 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+<?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php"; 
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
+
+// Datenbankverbindung
+$main_db_connection = getDbConnection();
+if (!$main_db_connection) {
+    die("Datenbankverbindung fehlgeschlagen");
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="de">
-<head> 
+<head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name='robots' content='index, follow'>
-<meta name="google-site-verification" content="4gzDy9yrFMe0UMYb_if2V49zaDQtEtmLtx6tvJlKmgk">
-<meta name="author" content="Reiner Horn">
-<meta name="description" content="Wir verstehen uns nicht nur als Dienstleister, sondern als langfristiger Partner und Wegbegleiter unserer Kunden und Kandidaten. In allen Berechen.">
-<meta name="keywords" content="Personal, Webdesign, Lohn, Websiten, Gehalt, SEO , SEA, Suchen, Finden">
-<meta name="revisit-after" content="30 days">
-<meta name="title" content="Wir haben das! Was Sie suchen!">
-<meta property="og:title" content="H&amp;D Dienstleistungen SRL - Webdesign /Websiten/ SEO & SEA">
-<meta property="og:site_name" content="H & D Dienstleistung">
-<meta property="og:url" content="montagedienst.goip.de">
-<meta property="og:type" content="website">
-<meta property="og:image:width" content="200">
-<meta property="og:image:height" content="200">
-<meta property="og:image:type" content="image/svg+xml">
-<meta name="theme-color" content="#ff0000">
-    <title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen"> 
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/services.css" media="screen">
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/checkbox.css" media="screen">
+<title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
+<link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
+     
+    
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/login.css" media="screen">
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/card.css" media="screen">
+    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">   
+    
     <link rel="icon" href="/images/icon/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" href="/images/icon/favicon.ico">   
-<?php
+    <?php
     if(isset($_REQUEST['language'])) {
       # Vorrang - das ist das Sprachwahlmenue
       $language = $_REQUEST['language'];
@@ -48,88 +35,99 @@ include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
       $language = "de";
     }
     $_SESSION['language'] = $language;
-
 ?>
   <script src="/function/js/editor.js"></script>
   <script src="/function/js/language_selector.js"></script>
 </head>
+
+</head>
 <body>
 
-  <header>
+<header>
     <?php
-  $page = $_GET['id'] ?? '2023-09-12 12:53:59';
-  $stmt = $connection->prepare('SELECT * FROM header WHERE id = ?');
-  $stmt->bind_param("s", $page);
-  $stmt->execute();
-  $header_result = $stmt->get_result();
-  
-  // Standardwerte setzen
-  $text = "Kein Text gefunden";
-  $link = "#";
-  $images = "";
-  $label = "Standard-Label";
-  $css = "";
-  
-  if ($rec = $header_result->fetch_assoc()) {
-      $text     = $rec['text'] ?? $text;
-      $link     = $rec['link'] ?? $link;
-      $images   = $rec['images'] ?? $images;
-      $label    = $rec['label'] ?? $label;
-      $css      = $rec['css'] ?? $css;
-  }
+    $stmt = $main_db_connection->prepare('SELECT * FROM header LIMIT 1');
+    if ($stmt) {
+        $stmt->execute();
+        $header_result = $stmt->get_result();
+        if ($rec = $header_result->fetch_assoc()) {
+            echo '<div class="' . htmlspecialchars($rec['css']) . '">
+                <a title="' . htmlspecialchars($rec['label']) . '" href="' . htmlspecialchars($rec['link']) . '">
 
-  echo '<div class="' . htmlspecialchars($css, ENT_QUOTES, 'UTF-8') . '">
-  <a title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '">
-  <embed class="logo" type="image/svg+xml" src="/images/hd-logo.svg">
-  </a>
-  <a class="companyname" title="' . htmlspecialchars($label, ENT_QUOTES, 'UTF-8') . '" href="' . htmlspecialchars($link, ENT_QUOTES, 'UTF-8') . '">' . htmlspecialchars($text, ENT_QUOTES, 'UTF-8') . '</a>
-</div>';
- 
-?>
-  
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php';?>
- 
-<navi>
+               <img class="logo" src="' . htmlspecialchars($rec['images'], ENT_QUOTES, 'UTF-8') . '" alt="logo">
+
+                <a class="companyname" title="'. htmlspecialchars($rec['label']) . '" href="' . htmlspecialchars($rec['link']) . '">'
+                . htmlspecialchars($rec['text']) . '</a></div>';
+        }
+        $stmt->close();
+    } else {
+        error_log("❌ Fehler: Header konnte nicht geladen werden.");
+    }
+    ?>
+
+    <?php $language = "de"; // Falls nichts gesetzt wurde
+include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php';      ?>
+    <navi>
     <div id="Navigation">
         <?php
+        if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/function/php/navi.inc.php')) {
+            error_log("❌ Navi-Datei nicht gefunden!");
+        } else {
+            error_log("✅ Navi-Datei gefunden. Wird geladen...");
+        }
         include $_SERVER['DOCUMENT_ROOT'] . '/function/php/navi.inc.php';
         ?>
     </div>
-</nav>
+
 </header>
-<main> 
-  <div class="content">
-    <?php  
-if (!isset($_REQUEST['page'])) {
-    $startseite_result = $connection->query(
-        'SELECT UNIX_TIMESTAMP(id) AS ts FROM page WHERE fk_translation_placeholder="PAGE_START_LABEL" LIMIT 1'
-    );
-    if ($page = $startseite_result->fetch_assoc()) {
-        $_REQUEST['page'] = (int) $page['ts'];  // Explizite Typensicherheit
-    } else {
-        die("Fehler: Startseite konnte nicht geladen werden.");
-    }
+
+<main>
+<div class="content">  
+<?php
+// Verbindung zur Datenbank herstellen
+ 
+
+if ($main_db_connection->connect_error) {
+    die("Verbindung fehlgeschlagen: " . $main_db_connection->connect_error);
 }
 
-$page_id = (int) $_REQUEST['page'];  // Sicherstellen, dass page_id eine Zahl ist
+// Startseite ermitteln, falls kein 'page'-Parameter gesetzt ist
+if (!isset($_REQUEST['page'])) {
+    error_log("⚠️ WARNUNG: Kein 'page'-Parameter in der URL, versuche Startseite zu laden.");
+    $startseite_result = $main_db_connection->query(
+        "SELECT UNIX_TIMESTAMP(id) AS ts FROM page WHERE fk_translation_placeholder='PAGE_START_LABEL' LIMIT 1"
+    );
+
+    if (!$startseite_result) {
+        die("Datenbankfehler: " . $main_db_connection->error);
+    }
+
+    $page = $startseite_result->fetch_assoc();
+    if (!$page) {
+        die("⚠️ Keine Startseite gefunden! Prüfe die 'page'-Tabelle.");
+    }
+
+    $_REQUEST['page'] = $page['ts'];
+    error_log("✅ Startseite gesetzt: " . $_REQUEST['page']);
+}
+
 $page_output_all = [];
 $plugin_content_id = "";
-$cardstack_id = "";
 
-$stmt = $connection->prepare("
-    SELECT *, plugin.name AS plugin_label, UNIX_TIMESTAMP(page.id) AS page_id, page.id AS page_raw_id
-    FROM page_config
-    JOIN page ON page_config.fk_page_id = page.id
-    JOIN plugin ON page_config.fk_plugin_id = plugin.id
-    WHERE UNIX_TIMESTAMP(page.id) = ?
+// SQL-Abfrage, um Plugins für die aktuelle Seite zu laden
+$stmt = $main_db_connection->prepare("    
+    SELECT 
+        *, 
+        plugin.name AS plugin_label, 
+        UNIX_TIMESTAMP(page.id) AS page_id, 
+        page.id AS page_raw_id 
+    FROM page_config 
+    JOIN page ON page_config.fk_page_id = page.id 
+    JOIN plugin ON page_config.fk_plugin_id = plugin.id 
+    WHERE UNIX_TIMESTAMP(page.id) = ? 
     ORDER BY page_config.idx ASC
 ");
 
-if (!$stmt) {
-    die("SQL-Fehler: " . $connection->error);
-}
-
-$stmt->bind_param('i', $page_id);
+$stmt->bind_param('i', $_REQUEST['page']);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -140,77 +138,67 @@ while ($record = $result->fetch_assoc()) {
         $page_plugin = $record['page_id'] . '_' . $record['plugin_label'];
         if (in_array($page_plugin, $page_output_all)) {
             continue;
+        } else {
+            $page_output_all[] = $page_plugin;
+            $print_all = true;
         }
-        $page_output_all[] = $page_plugin;
-        $print_all = true;
     }
 
     $plugin_content_id = $record['plugin_content_id'];
 
-    // **Unterstützung für mehrere Plugin-Verzeichnisse**
-    $plugin_dirs = [
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/',
-        $_SERVER['DOCUMENT_ROOT'] . '/global_plugin/',
-        $_SERVER['DOCUMENT_ROOT'] . '/admin_plugin/'
+    // Definiere eine Liste möglicher Verzeichnisse
+    $plugin_paths = [
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/',         // Standardverzeichnis
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/admin_plugin/',  
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_login/',  
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_mitglieder/',  
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_cards/',  
+        $_SERVER['DOCUMENT_ROOT'] . '/extra_plugin/',   
     ];
 
     $plugin_found = false;
-    
-    foreach ($plugin_dirs as $dir) {
-        $plugin_path = $dir . 'plugin_' . $record['plugin_label'] . '.php';
-        if (file_exists($plugin_path)) {
-            include $plugin_path;
+
+    foreach ($plugin_paths as $path) {
+        $plugin_file = $path . 'plugin_' . $record['plugin_label'] . '.php';
+
+        if (file_exists($plugin_file)) {
+            include $plugin_file;
             $plugin_found = true;
-            break;
+            break; // Sobald das Plugin gefunden wurde, beende die Schleife
         }
     }
 
+    // Falls das Plugin nicht gefunden wurde, eine Fehlermeldung ausgeben
     if (!$plugin_found) {
-        error_log("WARNUNG: Plugin-Datei nicht gefunden für: " . $record['plugin_label']);
+        echo "Fehler: Plugin '" . $record['plugin_label'] . "' nicht gefunden!";
     }
 }
+
+// Datenbankverbindung schließen
+$stmt->close();
+
 ?>
-<footer class="footer">
-<?php
-if (!isset($connection)) {
-    die('<p>Fehler: Datenbankverbindung nicht gesetzt.</p>');
-}
 
 
-$stmt = $connection->prepare('SELECT headline, link, language, label, version FROM footer LIMIT 1');
-if ($stmt) {
-    $stmt->execute();
-    $stmt->bind_result($headline, $link, $language, $label, $version);
-
-    if (!$stmt->fetch()) {
-        $headline = 'Kein Eintrag gefunden';
-        $link = '#';
-        $label = 'Kein Eintrag';
-        $version = '';
-    }
+</div> <!-- Schließt .content -->
+</main> <!-- Schließt main -->
+<footer>
+     
+    <?php
+    $stmt = $main_db_connection->prepare('SELECT headline, link, label, css FROM footer LIMIT 1');
     if ($stmt) {
+        $stmt->execute();
+        $stmt->bind_result($headline, $link, $label, $css);
+        if ($stmt->fetch()) {
+            echo '© 2020 - ' . date("Y") . ' <a href="' . htmlspecialchars($link) . '">' . htmlspecialchars($label) . '</a>';
+        }
         $stmt->close();
+    } else {
+        error_log("❌ Fehler beim Laden des Footers.");
     }
-} else {
-    $headline = 'Fehler bei der Datenbankabfrage';
-    $link = '#';
-    $label = 'Fehler';
-    $version = '';
-}
-
-if (!$stmt->execute()) {
-    die("SQL-Fehler: " . $stmt->error);
-}
-// XSS-Schutz
-$headline = htmlspecialchars($headline, ENT_QUOTES, 'UTF-8');
-$link = htmlspecialchars($link, ENT_QUOTES, 'UTF-8');
-$label = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
-$version = htmlspecialchars($version, ENT_QUOTES, 'UTF-8');
-
-echo '© 2020 - ' . date("Y") . ' <a title="' . $headline . '" href="' . $link . '">' . $label . ' ' . $version . '</a>';
-?>
+    ?> 
+    
 </footer>
-</div>
-</main>
+ 
 </body>
 </html>

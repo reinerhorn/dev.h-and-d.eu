@@ -11,11 +11,6 @@ $email = isset($_REQUEST['email']) ? htmlspecialchars($_REQUEST['email'], ENT_QU
 ?>
 
 <div class="flex_container">
-    <div>
-        Wir verwenden Cookies aus technischen Gründen.
-        Hierzu bitte die Datenschutzbestimmung genau lesen!
-    </div>
-
     <div class="login-button login-button-text">
         <button class="button" onclick="location.href='?page=1692886141';">Datenschutzerklärung</button>
         <button class="button" onclick="location.href='?page=1692882619';">AGB</button>

@@ -1,5 +1,7 @@
 <?php
-session_start();
+ if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 if (!isset($_SESSION['admin_a'])) {
     header('Location:/index.php');
     exit;
@@ -47,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             }
             break;
     }
-    $stmt->close();
+   /* $stmt->close();*/
     
 }
 ?>

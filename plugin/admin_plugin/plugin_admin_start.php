@@ -21,6 +21,7 @@ $datum="";
     $stmt->execute();
     $plugin_result = $stmt->get_result();
     $commentar = '';
+    
     while($visitors_rec = $plugin_result->fetch_assoc()) {
         $commentar .= 'IP:'. ' '. 
         $visitors_rec['ip_address'] . '<br>' . 'Datum:' .' '.
@@ -57,38 +58,9 @@ $datum="";
         $data[] = $row;
       }
 
-$db_connector->close();
+/*$db_connector->close();*/
 ?>
-<style>
- .flex-box {
-	display:flex;
-}
-.container {
-  display: flex;
-}
-.column {
-  flex: 1;
-  padding: 10px;
-  text-align: center;
-}
-div.visitors_container {
-    bottom: 0;
-    text-align: center;
-    height: 200px;
-    overflow-y: scroll; /* Show vertical scrollbar */
-    overflow-x: scroll;
-    padding: 10px;
-  }
-  .visitorChart {
-    font-family: Arial, sans-serif;
-    text-align: center;
-   width:600px;
-    height: 400px;
-    color:black;
-    overflow: scroll;
-    padding: 10px;
-   }
-</style>
+
 <div class="container">
   <div class="column "><?php echo $datum ?></div>
   <div class="column "><?php echo $counter ?></div>

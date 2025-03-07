@@ -1,6 +1,7 @@
 <?php
-#require_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
-$connection = getDbConnection();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $id = "";
 $email = "";
@@ -13,7 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
 
     if ($action === "store") {
         $action = empty($id) ? "add" : "update";
@@ -48,45 +48,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
-<div class="flex_container">
-    <div>Wir verwenden Cookies aus technischen Gründen. Hierzu bitte die Datenschutzbestimmung genau lesen!</div>
-    <div id="login-button login-button-text">
+<div class="flex_container ">
+<div class="form-container">
+    <div class="button-group">
         <button class="button" onclick="location.href='?page=1692886141';">Datenschutzerklärung</button>
         <button class="button" onclick="location.href='?page=1692882619';">AGB</button> 
     </div>
-    <div class="box">
+
+    <div class="form-box">
         <form name="editor" method="post" action="">
             <input type="hidden" name="action" value="store">
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">
 
-            <div class="group">
+            <div class="form-group">
                 <input type="text" id="email" name="email" maxlength="100" value="<?php echo htmlspecialchars($email, ENT_QUOTES, 'UTF-8'); ?>" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
                 <label for="email">E-Mail-Adresse</label>
             </div>
 
-            <div class="group">
+            <div class="form-group">
                 <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); ?>" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
                 <label for="username">Username</label>
             </div>
 
-            <div class="group">
+            <div class="form-group">
                 <input type="password" id="password" name="password" required>
-                <span class="highlight"></span>
-                <span class="bar"></span>
-                <label for="password">Password</label>
+                <label for="password">Passwort</label>
             </div>
 
-            <div class="group">
-                <label for="checkbox">Ich stimme der Datenschutzerklärung / AGB zu</label>
+            <div class="form-check">
+                <input type="checkbox" id="agree" name="agree" value="ich stimme zu" required>
+                <label for="agree">Ich stimme der Datenschutzerklärung / AGB zu</label>
             </div>
-            <input class="custom-checkbox" type="checkbox" name="agree" value="ich stimme zu" required><br>
 
             <button class="button" type="submit">Senden</button>
         </form>
     </div>
+</div>
 </div>

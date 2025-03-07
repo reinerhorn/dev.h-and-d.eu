@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 try {
   if(isset($print_all) && $print_all) {
     $stmt = $connection->prepare("SELECT * FROM page_config JOIN p_content_plaintext ON page_config.plugin_content_id=p_content_plaintext.id WHERE UNIX_TIMESTAMP(page_config.fk_page_id)=? AND fk_language_id=? ORDER BY p_content_plaintext.idx ASC");
@@ -15,7 +18,7 @@ try {
     $headline = $record['headline'];
     echo '<h1>' . $headline . '</h1>';
     $text = $record['text'];
-    echo '<div class="holder"> ' . $text . '</div>';
+    echo '<div class="center-text"> ' . $text . '</div>';
   }
 } catch(Error $err) {
   echo PHP_EOL . '<br><b>ERROR: ' . $err . '</b>';

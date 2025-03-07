@@ -52,7 +52,7 @@ $connection = getDbConnection();
 				$label = $p_card_record['label'];
             }
         }
-        $stmt->close();
+        /*$stmt->close();*/
     } 
 ?>
 
