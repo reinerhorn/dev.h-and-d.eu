@@ -15,9 +15,9 @@ if (!$main_db_connection) {
 <meta charset="UTF-8">
 <title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
 <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
-     
+<link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/checkbox.css" media="screen">   
     
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/login.css" media="screen">
+    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/services.css" media="screen">
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">   
     
     <link rel="icon" href="/images/icon/favicon.ico" type="image/x-icon">
@@ -44,25 +44,46 @@ if (!$main_db_connection) {
 <body>
 
 <header>
-    <?php
-    $stmt = $main_db_connection->prepare('SELECT * FROM header LIMIT 1');
-    if ($stmt) {
-        $stmt->execute();
-        $header_result = $stmt->get_result();
-        if ($rec = $header_result->fetch_assoc()) {
-            echo '<div class="' . htmlspecialchars($rec['css']) . '">
-                <a title="' . htmlspecialchars($rec['label']) . '" href="' . htmlspecialchars($rec['link']) . '">
+<?php
+ 
+ 
+ $role = isset($_SESSION['admin_a']) ? (int) $_SESSION['admin_a'] : null;
+$language = 'de'; // Falls die Sprache nicht aus der Session kommt, setze hier die gewünschte Standardsprache.
 
-               <img class="logo" src="' . htmlspecialchars($rec['images'], ENT_QUOTES, 'UTF-8') . '" alt="logo">
+$stmt = $main_db_connection->prepare("SELECT * FROM header WHERE role = ? AND language = ? LIMIT 1");
+$stmt->bind_param("is", $role, $language);
+$stmt->execute();
+$header_result = $stmt->get_result();
 
-                <a class="companyname" title="'. htmlspecialchars($rec['label']) . '" href="' . htmlspecialchars($rec['link']) . '">'
-                . htmlspecialchars($rec['text']) . '</a></div>';
-        }
-        $stmt->close();
+if ($header_result->num_rows > 0) {
+    // Rolle hat einen spezifischen Header
+    $rec = $header_result->fetch_assoc();
+} else {
+    // Kein spezifischer Header -> Nutze den allgemeinen Header (role = NULL)
+    $stmt = $main_db_connection->prepare("SELECT * FROM header WHERE role IS NULL AND language = ? LIMIT 1");
+    $stmt->bind_param("s", $language);
+    $stmt->execute();
+    $header_result = $stmt->get_result();
+    
+    if ($header_result->num_rows > 0) {
+        $rec = $header_result->fetch_assoc();
     } else {
-        error_log("❌ Fehler: Header konnte nicht geladen werden.");
+        $rec = null; // Falls gar kein Header existiert
     }
-    ?>
+}
+
+if ($rec) {
+    echo '<div class="' . htmlspecialchars($rec['css']) . '">
+        <a title="' . htmlspecialchars($rec['label']) . '" href="' . htmlspecialchars($rec['link']) . '">
+        <img class="logo" src="' . htmlspecialchars($rec['images'], ENT_QUOTES, 'UTF-8') . '" alt="logo">
+        <a class="companyname" title="' . htmlspecialchars($rec['label']) . '" href="' . htmlspecialchars($rec['link']) . '">'
+        . htmlspecialchars($rec['text']) . '</a></div>';
+} else {
+    error_log("❌ Kein Header gefunden.");
+}
+
+$stmt->close();
+ ?>
 
     <?php $language = "de"; // Falls nichts gesetzt wurde
 include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php';      ?>
@@ -76,7 +97,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php';  
         }
         include $_SERVER['DOCUMENT_ROOT'] . '/function/php/navi.inc.php';
         ?>
+        
     </div>
+</navi>
 
 </header>
 

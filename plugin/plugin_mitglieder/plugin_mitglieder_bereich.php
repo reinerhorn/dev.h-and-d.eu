@@ -1,14 +1,12 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
- 
- // Direkten Zugriff verhindern
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
   http_response_code(403);
   exit('Zugriff verweigert!');
 }
-
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+ 
 // Prüfen, ob der Benutzer eingeloggt ist
 if (!isset($_SESSION['email'])) {
     echo "Bitte erst einloggen";

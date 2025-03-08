@@ -78,8 +78,7 @@ body {
 }
 #Navigation {
   position: relative;
-   
-  width: 100%;
+  width: 22%;
   left:0px;
   box-shadow: 10px 10px 5px lightblue;
   height: 30px;
