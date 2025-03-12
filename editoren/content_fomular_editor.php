@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
 <script src="/function/js/editor.js"></script>  
-</head>
 <?php
  
 $connection = getDbConnection();
@@ -56,7 +52,7 @@ if (isset($_POST['action'])) {
     }
 }
 ?>
-<body>
+ 
     <style>
     div.box {
     box-sizing: border-box; 
@@ -116,5 +112,4 @@ while($rec = $result->fetch_assoc()) {
     </div>
 </form>
 </div> 
-</body>
-</html>
+ 

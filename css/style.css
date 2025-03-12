@@ -44,7 +44,7 @@ body {
   width: 100%;
   overflow: auto;
 }
-
+/* Header-Styling */
 .header {
   position: relative;
   display: flex;
@@ -76,77 +76,53 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-#Navigation {
-  position: relative;
-  width: 22%;
-  left:0px;
-  box-shadow: 10px 10px 5px lightblue;
-  height: 30px;
-  background-color: rgb(102, 102, 102);
-  color: var(--normalcolorwhite);   
-}
-#Navigation div {
-  position: relative;
-  display: inline-block;
-}
-#Navigation div div {
-  position: absolute;
-  left: 0;
-  top: 30px;
-}
-#Navigation div:hover .navigationDropDown {
-  display: block !important;
-}
-#Navigation a {
-  line-height: 30px;
-  font-family: "robotocondensed";
-  color: var(--normalcolorwhite);
-  display: inline-block;
-  text-decoration: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  letter-spacing: 0.4pt;
-  font-size: 12pt; 
-  border : #fae27f !important; 
-}
-#Navigation a.marked {
-  background-color: black;
-   
-}
-#Navigation a:hover {
- background-color: #fae27f;
-  color: black;
-}
-.navigationDropDown { 
-  display: none !important;
-  position: relative;
-  z-index: 2;
-  min-width: 100%;
-  top: 30px;
-  left: 0;  
-  line-height: 30px;
-  background-color: rgb(102, 102, 102);
-  color: var(--normalcolorwhite);
+/*Admin  Headers */
+.admin-header {
+  background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
+  box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+
 }
-.navigationDropDown:hover {
-  display: block !important;
-}
-.navigationDropDown a { 
-  display: block !important;
-  font-family: "robotocondensed";
-  color: var(--normalcolorwhite);
+
+.admin-header a {
+  color: white;
   text-decoration: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  letter-spacing: 0.4pt;  
-  font-size: 15px;
-  white-space: nowrap;
+  font-size: 18px;
+  font-weight: bold;
 }
-.navigationDropDown a:hover {
-  background-color: #fae27f;
-  color: black;
+
+.admin-header img {
+  height: 80px; /* Logo innerhalb des Headers */
+  margin-right: 15px;
 }
+/* Ende Adinm Header */
+/*  Mitglider Header */
+.member-header {
+  background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
+  box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.member-header a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.member-header img {
+  height: 80px; /* Logo innerhalb des Headers */
+  margin-right: 15px;
+}
+/* Ende Mitglider Header */
  
 .hyphens {
   position: absolute;

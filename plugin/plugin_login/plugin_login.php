@@ -17,15 +17,15 @@ $email = isset($_REQUEST['email']) ? htmlspecialchars($_REQUEST['email'], ENT_QU
     </div>
 
     <div class="box">
-        <form name="editor" method="post" action="">
+    <form name="editor" method="post" action="?page=1692888607">
             <div class="group">
-                <input type="email" id="email" name="email" value="<?php echo $email; ?>" required>
+            <input type="email" id="email" name="email" required>
                 <span class="highlight"></span>
                 <span class="bar"></span>
                 <label for="email">E-Mail-Adresse</label>
             </div>
             <div class="group">
-                <input type="password" id="password" name="password" required>
+            <input type="password" id="password" name="password" required>
                 <span class="highlight"></span>
                 <span class="bar"></span>
                 <label for="password">Passwort</label>
@@ -35,7 +35,7 @@ $email = isset($_REQUEST['email']) ? htmlspecialchars($_REQUEST['email'], ENT_QU
             </div>
             <input class="custom-checkbox" type="checkbox" name="agree" value="ich stimme zu" required>
             <br>
-            <button class="button">Senden</button>
+            <button class="button" type="submit">Senden</button>
         </form>
     </div> 
 </div>

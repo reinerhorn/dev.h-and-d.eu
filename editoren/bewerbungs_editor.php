@@ -85,7 +85,7 @@ include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php") ;
                 <option value="">auswählen...</option>
                 <option value="neu">neu</option>
                 <option value="-" disabled=disabled></option>
-    <?php
+            <?php
             $connection = getDbConnection();
             $stmt = $connection->prepare("SELECT * FROM plugin_bewerbung");
             $stmt->execute();
@@ -97,10 +97,9 @@ include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php") ;
        
  
       
-echo "<h1>Bewerbung</h1>";
-
-   
-        ?>       
+            echo "<h1>Bewerbung</h1>";
+  
+            ?>       
             </select> <br>
             <input type="hidden" name="action" value="">
             <input type="hidden" name="id" value="<?php echo $id ?>">       

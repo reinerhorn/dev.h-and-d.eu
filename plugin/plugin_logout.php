@@ -1,28 +1,30 @@
 <?php
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-    http_response_code(403);
-    exit('Zugriff verweigert!');
-}
-if (session_status() === PHP_SESSION_NONE) {
+ 
+
+ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Alle Session-Variablen sicher löschen
+// Alle Session-Variablen löschen
 $_SESSION = [];
 
-// Session-Cookie ungültig machen (falls gesetzt)
-if (ini_get("session.use_cookies")) {
-    $params = session_get_cookie_params();
-    setcookie(session_name(), '', time() - 42000,
-        $params["path"], $params["domain"],
-        $params["secure"], $params["httponly"]
-    );
+// Session-Cookie sicher löschen
+if (isset($_COOKIE[session_name()])) {
+    setcookie(session_name(), '', time() - 42000, '/', '', true, true);
 }
 
-// Session vollständig zerstören
+// Session zerstören
 session_destroy();
 
-// Sicheres Redirect
+// Debugging nach dem Löschen
+echo "<pre>";
+echo "SESSION nach session_destroy():\n";
+var_dump($_SESSION);
+echo "COOKIE nach setcookie():\n";
+var_dump($_COOKIE);
+echo "</pre>";
+
+// Weiterleitung zur Startseite
 header("Location: /index.php", true, 302);
 exit;
 ?>
