@@ -1,5 +1,6 @@
 <script src="/function/js/chart.js"></script>
 <script src="/function/js/charts-loader.js"></script>
+ 
 <?php
 if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
     http_response_code(403);
@@ -9,6 +10,9 @@ if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
 if (!isset($_SESSION['admin_a'])) {
 	header('Location:/index.php');
 }
+
+ 
+
 //  Zeile 1 spalte 1
 if(isset( $_SESSION["admin_a"]));
 $istUserAngemeldet = isset( $_SESSION["admin_a"]);

@@ -7,8 +7,8 @@ $main_db_connection = getDbConnection();
 if (!$main_db_connection) {
     die("Datenbankverbindung fehlgeschlagen");
 }
+ 
 ?>
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -16,7 +16,7 @@ if (!$main_db_connection) {
 <title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
 <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
 <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/checkbox.css" media="screen">   
-    
+<link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/navi.css" media="screen">    
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/services.css" media="screen">
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">   
     
@@ -35,19 +35,21 @@ if (!$main_db_connection) {
       $language = "de";
     }
     $_SESSION['language'] = $language;
+
+    echo '<!-- Debug: LanguageSelector geladen -->';
+
 ?>
-  <script src="/function/js/editor.js"></script>
-  <script src="/function/js/language_selector.js"></script>
+ 
+  
 </head>
 
-</head>
 <body>
 
 <header>
 <?php
  
  
- $role = isset($_SESSION['admin_a']) ? (int) $_SESSION['admin_a'] : null;
+$role = isset($_SESSION['admin_a']) ? (int) $_SESSION['admin_a'] : null;
 $language = 'de'; // Falls die Sprache nicht aus der Session kommt, setze hier die gewünschte Standardsprache.
 
 $stmt = $main_db_connection->prepare("SELECT * FROM header WHERE role = ? AND language = ? LIMIT 1");
@@ -85,8 +87,7 @@ if ($rec) {
 $stmt->close();
  ?>
 
-    <?php $language = "de"; // Falls nichts gesetzt wurde
-include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php';      ?>
+ 
     <navi>
     <div id="Navigation">
         <?php

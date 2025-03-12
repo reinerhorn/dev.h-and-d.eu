@@ -1,8 +1,5 @@
-
 <script src="/function/js/editor.js"></script>  
- 
 <?php
- 
 $connection = getDbConnection();
 $id =""; 
 $fk_formular_id ="";
@@ -164,5 +161,4 @@ while($rec = $result->fetch_assoc()) {
     </div>
 </form>
 </div> 
-</body>
-</html>
+ 
