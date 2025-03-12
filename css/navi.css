@@ -65,26 +65,31 @@
 }
 
 /* 👤 Mitglieder Navigation (Senkrecht, links) */
+/* 👤 Mitglieder Navigation (Senkrecht, links) */
 #memberNav {
     position: absolute;
-    left: 0;
-    top: 85px;
-    width: 175px;
+    left: 4px;
+    top: 105px;
+    width: auto; /* Passt sich der Breite des Inhalts an */
     padding: 5px;
     background-color: rgb(102, 102, 102);
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Links ausrichten */
 }
 
+/* Links innerhalb der Mitglieder-Navigation */
 #memberNav a {
-    display: block;
+    display: inline-block;
     text-decoration: none;
     color: var(--normalcolorwhite);
     font-size: 14px;
-    padding: 8px;
-    line-height: 30px;
-    height: 30px;
+    padding: 8px 12px; /* Etwas mehr Platz für bessere Lesbarkeit */
+    line-height: 20px;
     border-bottom: 1px solid #fae27f;
+    white-space: nowrap; /* Verhindert Zeilenumbrüche */
 }
 
 #memberNav a:hover {
