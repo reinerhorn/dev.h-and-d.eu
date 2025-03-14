@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php"; 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
+#include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
 
 // Datenbankverbindung
 $main_db_connection = getDbConnection();
@@ -84,7 +84,7 @@ if ($rec) {
     error_log("❌ Kein Header gefunden.");
 }
 
-$stmt->close();
+#$stmt->close();
  ?>
 
  
@@ -175,7 +175,7 @@ while ($record = $result->fetch_assoc()) {
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/',         // Standardverzeichnis
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/admin_plugin/',  
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_login/',  
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_mitglieder/',  
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_member/',  
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_cards/',  
         $_SERVER['DOCUMENT_ROOT'] . '/extra_plugin/',   
     ];

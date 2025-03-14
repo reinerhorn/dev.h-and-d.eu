@@ -21,7 +21,7 @@ function handle_login() {
 		$is_admin = isset($_SESSION['admin_a']) ? $_SESSION['admin_a'] == 1 : 0;
 		# ADMIN : MEMBER
 		$name = $is_admin ? 'ADMIN-START' : 'MEMBER_START';
-		$page_id = $is_admin ? '1695451523' : '1741511500';
+		$page_id = $is_admin ? '1695451523' : '1741848707';
 		my_redirect($page_id);
 	} elseif(isset($_REQUEST['email']) && isset($_REQUEST['password'])) {
 		$db_connection = getDbConnection();

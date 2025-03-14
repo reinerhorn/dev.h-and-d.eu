@@ -169,7 +169,7 @@ if (isset($_POST['action'])) {
     ?>
     </select>
    <br><br>
-        <button onclick="this.form.elements['action'].value='store'" type="submit">Speichern</button>
-        <button onclick="this.form.elements['action'].value='delete'">Löschen</button>
+   <button onclick="this.form.elements['action'].value='store'" type="submit">Speichern</button>
+   <button onclick="this.form.elements['action'].value='delete'">Löschen</button>
 </form>
 </div>
