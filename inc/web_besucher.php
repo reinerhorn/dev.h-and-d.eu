@@ -36,5 +36,5 @@ if ($visitor_ip !== $server_ip && $server_ip1){
         $prepared_stmt->bind_param("sss", $browser, $os, $visitor_ip);
         $prepared_stmt->execute();
 }
-$stmt->close();
+#$stmt->close();
 ?>
