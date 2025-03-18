@@ -1,144 +1,109 @@
 <?php
-session_start();
-include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php") ;
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php");
+include($_SERVER['DOCUMENT_ROOT'] . "/config/functions.inc.php"); // Importierte Funktionen
 
 // Prüfen, ob der Benutzer Admin ist
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 1) {
     die("Zugriff verweigert!");
 }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-if (isset($_GET['delete_nav'])) {
-    $nav_id = intval($_GET['delete_nav']);
-    $stmt = $conn->prepare("DELETE FROM navigation WHERE id = ?");
-    $stmt->bind_param("i", $nav_id);
-    $stmt->execute();
-    header("Location: admin.php");
-    exit();
-}
+// Daten für Header und Footer abrufen
+$role = $_SESSION['role'] ?? 0;
+$header_content = getHeaderFooterContent($conn, 'header', $role);
+$header_links = getHeaderFooterLinks($conn, 'header', $role);
+$footer_content = getHeaderFooterContent($conn, 'footer', 0);
+$footer_links = getHeaderFooterLinks($conn, 'footer', $role);
 
-// --- SEITENVERWALTUNG ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_page'])) {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-    $language = $_POST['language'];
-    $page_id = $_POST['page_id'] ?? null;
-
-    if ($page_id) {
-        $stmt = $conn->prepare("UPDATE page SET title = ?, content = ?, language = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $title, $content, $language, $page_id);
-    } else {
-        $stmt = $conn->prepare("INSERT INTO page (title, content, language) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $title, $content, $language);
-    }
-    $stmt->execute();
-    header("Location: admin.php");
-    exit();
-}
-
-// --- NAVIGATION VERWALTEN ---
-// Navigation löschen
-if (isset($_GET['delete_nav'])) {
-    $nav_id = intval($_GET['delete_nav']);
-    $stmt = $conn->prepare("DELETE FROM navigation WHERE id = ?");
-    $stmt->bind_param("i", $nav_id);
-    $stmt->execute();
-    header("Location: admin.php");
-    exit();
-}
-
-// Navigation bearbeiten
-$edit_label = $edit_link = "";
-if (isset($_GET['edit_nav'])) {
-    $nav_id = intval($_GET['edit_nav']);
-    $stmt = $conn->prepare("SELECT label, link FROM navigation WHERE id = ?");
-    $stmt->bind_param("i", $nav_id);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if ($nav = $result->fetch_assoc()) {
-        $edit_label = htmlspecialchars($nav['label']);
-        $edit_link = htmlspecialchars($nav['link']);
-    }
-}
-
-// Navigation speichern oder aktualisieren
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_nav'])) {
-    $label = $_POST['name'];
-    $link = $_POST['link'];
-    $nav_id = $_POST['nav_id'] ?? null;
-
-    if ($nav_id) {
-        $stmt = $conn->prepare("UPDATE navigation SET label = ?, link = ? WHERE id = ?");
-        $stmt->bind_param("ssi", $label, $link, $nav_id);
-    } else {
-        $stmt = $conn->prepare("INSERT INTO navigation (label, link) VALUES (?, ?)");
-        $stmt->bind_param("ss", $label, $link);
-    }
-    $stmt->execute();
-    header("Location: admin.php");
-    exit();
-}
-
-
-// --- BENUTZER VERWALTEN ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_user'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'] ? password_hash($_POST['password'], PASSWORD_DEFAULT) : null;
-    $role = $_POST['role'];
-    $user_id = $_POST['user_id'] ?? null;
-
-    if ($user_id) {
-        if ($password) {
-            $stmt = $conn->prepare("UPDATE plugin_login_users SET username = ?, password = ?, role = ? WHERE id = ?");
-            $stmt->bind_param("ssii", $username, $password, $role, $user_id);
-        } else {
-            $stmt = $conn->prepare("UPDATE plugin_login_users SET username = ?, role = ? WHERE id = ?");
-            $stmt->bind_param("sii", $username, $role, $user_id);
-        }
-    } else {
-        $stmt = $conn->prepare("INSERT INTO plugin_login_users (username, password, role) VALUES (?, ?, ?)");
-        $stmt->bind_param("ssi", $username, $password, $role);
-    }
-    $stmt->execute();
-    header("Location: admin.php");
-    exit();
-}
-
-// Daten abrufen
 $pages = $conn->query("SELECT * FROM page")->fetch_all(MYSQLI_ASSOC);
 $navigations = $conn->query("SELECT * FROM navigation")->fetch_all(MYSQLI_ASSOC);
 $users = $conn->query("SELECT * FROM plugin_login_users")->fetch_all(MYSQLI_ASSOC);
-$modules = $conn->query("SELECT id, name FROM modules")->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
     <title>Admin-Bereich</title>
 </head>
 <body>
+<header>
+    <nav>
+        <ul>
+    <?php 
+    $unique_header_links = []; // Sicherstellen, dass die Liste leer beginnt
+    foreach ($header_links as $link): 
+        $content = trim($link['content']);
+    
+        if (in_array($content, $unique_header_links)) {
+        continue;
+        }
+    
+        $unique_header_links[] = $content;
+        echo "<li>{$content}</li>";
+    endforeach; 
+?>
+        </ul>
+    </nav>
+    <?php if (empty($unique_header_links)): ?>
+    <div><?= $header_content; ?></div>
+    <?php endif; ?> 
+</header>
+
+<main>
     <h1>Admin-Bereich</h1>
     <a href="index.php">Zurück zur Webseite</a> | <a href="logout.php">Logout</a>
 
+    <h2>Header verwalten</h2>
+    <form method="POST" id="headerForm">      
+ 
+<label for="header_type">Typ:</label>
+<input type="text" name="header_type" value="<?= htmlspecialchars($header_type ?? '') ?>" required>
+
+<label for="header_role">Rolle:</label>
+<input type="text" name="header_role" value="<?= htmlspecialchars($header_role ?? '') ?>" required>
+    
+<label for="header_content">Inhalt:</label>
+<input type="text" name="header_content" value="<?= htmlspecialchars($header_content) ?>" required>
+    </form>
+    <ul>
+    <?php foreach ($header_links as $header): ?>
+        <li>
+            <?= htmlspecialchars($header['content']); ?>
+            <a href="#" onclick="editHeader(<?= $header['id'] ?? 0; ?>, '<?= htmlspecialchars($header['content'] ?? '', ENT_QUOTES); ?>', '<?= htmlspecialchars($header['type'] ?? '', ENT_QUOTES); ?>', <?= $header['role'] ?? 0; ?>); return false;">Bearbeiten</a>
+            <a href="admin.php?delete_header=<?= isset($header['id']) ? $header['id'] : ''; ?>" 
+               onclick="return confirm('Wirklich löschen?');">Löschen</a>
+        </li>
+    <?php endforeach; ?>
+</ul>
+
     <h2>Navigation verwalten</h2>
     <form method="POST">
-        <input type="hidden" name="nav_id" value="<?= isset($_GET['edit_nav']) ? $_GET['edit_nav'] : ''; ?>">
-        <input type="text" name="name" placeholder="Menü-Name" value="<?= $edit_label; ?>" required>
-        <input type="text" name="link" placeholder="Link (z.B. index.php?page=1)" value="<?= $edit_link; ?>" required>
+        <input type="hidden" name="nav_id">
+        <input type="text" name="name" placeholder="Menü-Name" required>
+        <input type="text" name="link" placeholder="Link (z.B. index.php?page=1)" required>
+        <select name="role">
+            <option value="">Alle</option>
+            <option value="1">Admin</option>
+            <option value="2">Mitglied</option>
+        </select>
         <button type="submit" name="save_nav">Speichern</button>
     </form>
     <ul>
-    <?php foreach ($navigations as $nav): ?>
-        <li>
-            <?= htmlspecialchars($nav['label']); ?>
-            <a href="admin.php?edit_nav=<?= $nav['id'] ?>">Bearbeiten</a>
-            <a href="admin.php?delete_nav=<?= $nav['id'] ?>" onclick="return confirm('Menüpunkt wirklich löschen?');">Löschen</a>
-        </li>
-    <?php endforeach; ?>
+        <?php foreach ($navigations as $nav): ?>
+            <li>
+                <?= isset($nav['name']) ? htmlspecialchars($nav['name']) : 'Unbenannt'; ?> (<?= isset($nav['link']) ? htmlspecialchars($nav['link']) : '#'; ?>)
+                <a href="admin.php?delete_nav=<?= $nav['id'] ?>">Löschen</a>
+            </li>
+        <?php endforeach; ?>
     </ul>
-    <ul>
-   
 
     <h2>Seitenverwaltung</h2>
     <form method="POST">
@@ -176,5 +141,40 @@ $modules = $conn->query("SELECT id, name FROM modules")->fetch_all(MYSQLI_ASSOC)
             </li>
         <?php endforeach; ?>
     </ul>
+</main>
+
+    <footer>
+  
+    <nav>
+        <ul>
+    <?php 
+            $unique_links = []; // Sicherstellen, dass die Liste leer beginnt
+            foreach ($footer_links as $link): 
+            $content = trim($link['content']);
+    
+    // Falls der Inhalt bereits ausgegeben wurde, überspringen
+    if (in_array($content, $unique_links)) {
+        continue;
+    }
+    
+    $unique_links[] = $content; // Füge neuen Inhalt zur Liste hinzu
+    echo "<li>{$content}</li>";
+endforeach; 
+?>
+        </ul>
+    </nav>
+    <?php if (empty($unique_links)): ?>
+    <div><?= $footer_content; ?></div>
+    <?php endif; ?></div>
+</footer>
+ 
+<script>
+function editHeader(id, content, type, role) {
+    document.getElementById('headerForm').setAttribute('action', 'admin.php?edit_header=' + id);
+    document.querySelector('input[name="header_type"]').value = type;
+    document.querySelector('input[name="header_role"]').value = role;
+    document.querySelector('input[name="header_content"]').value = content;
+}
+</script>
 </body>
 </html>
