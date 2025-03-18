@@ -26,15 +26,7 @@ function getUserRole($user_id) {
     return $role ?? null;
 }
 
-// Navigation aus der Datenbank laden
-function getNavigation($role) {
-    global $conn;
-    $stmt = $conn->prepare("SELECT name, link FROM navigation WHERE role IS NULL OR role = ?");
-    $stmt->bind_param("i", $role);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    return $result->fetch_all(MYSQLI_ASSOC);
-}
+ 
  
  
 

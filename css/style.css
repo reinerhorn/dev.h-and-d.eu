@@ -33,7 +33,7 @@ nav ul li a:hover {
 
 /* Hauptinhalt */
 main {
-    max-width: 800px;
+    width: 1000px;
     margin: 20px auto;
     padding: 20px;
     background: white;
@@ -94,7 +94,7 @@ button:hover {
     background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
     box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
     overflow: hidden;
-    height: 100px;
+    height: 60px;
     display: flex;
     align-items: center;
     padding: 0 20px;
