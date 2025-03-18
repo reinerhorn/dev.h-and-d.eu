@@ -1,21 +1,35 @@
 <?php
-function getDbConnection() {
-    static $connection = null;
+session_start();
 
-    if ($connection === null) {
-        $connection = new mysqli("localhost", "root", "101TanZen101", "dbs060954hd");
+$host = "localhost"; 
+$user = "root"; 
+$pass = "101TanZen101"; 
+$dbname = "cms_database"; 
 
-        if ($connection->connect_errno) {
-            error_log("Datenbankverbindungsfehler: " . $connection->connect_error);
-            die("<h1>Fehler: Datenbank nicht erreichbar</h1>");
-        }
+$conn = new mysqli($host, $user, $pass, $dbname);
 
-        // Zeichensatz auf UTF-8 setzen
-        if (!$connection->set_charset("utf8mb4")) {
-            error_log("Fehler beim Setzen des Zeichensatzes: " . $connection->error);
-            die("<h1>Fehler beim Setzen des Zeichensatzes</h1>");
-        }
-    }
-    return $connection;
+if ($conn->connect_error) {
+    die("Datenbankverbindung fehlgeschlagen: " . $conn->connect_error);
+}
+
+function getUserRole($user_id) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT role FROM plugin_login_users WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($role);
+    $stmt->fetch();
+    $stmt->close();
+    return $role ?? null;
+}
+
+// Navigation aus der Datenbank laden
+function getNavigation($role) {
+    global $conn;
+    $stmt = $conn->prepare("SELECT name, link FROM navigation WHERE role IS NULL OR role = ?");
+    $stmt->bind_param("i", $role);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    return $result->fetch_all(MYSQLI_ASSOC);
 }
 ?>
