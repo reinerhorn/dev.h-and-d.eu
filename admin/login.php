@@ -1,5 +1,6 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php") ;
+include($_SERVER['DOCUMENT_ROOT'] . "/config/functions.inc.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = $_POST['username'];

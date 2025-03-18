@@ -58,3 +58,116 @@ button {
 button:hover {
     background: #0056b3;
 }
+.header {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 80px; /* Stelle sicher, dass der Header eine Mindesthöhe hat */
+    padding: 20px; /* Abstand um den Inhalt */
+    
+    background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
+    box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    z-index: 10;
+  }
+  
+  .header .logo {
+    width: 100px;
+  }
+  
+  .header a.companyname {
+    font-family: "Great Vibes", cursive;
+    font-size: 30pt;
+    background-image: linear-gradient(90deg, orange, rgb(241, 229, 7));
+    background-clip: text;
+    text-decoration: none;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  /*Admin  Headers */
+  .admin-header {
+    background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
+    box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  
+  }
+  
+  .admin-header a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .admin-header img {
+    height: 80px; /* Logo innerhalb des Headers */
+    margin-right: 15px;
+  }
+  /* Ende Adinm Header */
+  /*  Mitglider Header */
+  .member-header {
+    background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
+    box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+  
+  .member-header a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .member-header img {
+    height: 80px; /* Logo innerhalb des Headers */
+    margin-right: 15px;
+  }
+  /* Ende Mitglider Header */
+   
+  footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 14px;
+    width: 100%;
+    position: relative;
+  }
+  footer.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  } 
+  
+  /* Falls der Footer IMMER sichtbar sein soll (auch beim Scrollen) */
+  .fixed-footer {
+    position: fixed;
+    bottom: 0;
+  }
+  
+  /* Links im Footer */
+  footer a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  footer a:hover {
+    color: #fff;
+  }
+   
+  

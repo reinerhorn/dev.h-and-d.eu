@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 
 $host = "localhost"; 
 $user = "root"; 
@@ -32,4 +35,7 @@ function getNavigation($role) {
     $result = $stmt->get_result();
     return $result->fetch_all(MYSQLI_ASSOC);
 }
+ 
+ 
+
 ?>
