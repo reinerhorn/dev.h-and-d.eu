@@ -1,8 +1,8 @@
 <?php
 include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php") ;
 
-$header_content = $conn->query("SELECT content FROM header_footer WHERE type = 'header'")->fetch_assoc()['content'] ?? '';
-$footer_content = $conn->query("SELECT content FROM Header_footer WHERE type = 'footer'")->fetch_assoc()['content'] ?? '';
+$header_content = $conn->query("SELECT content FROM header WHERE css = 'header'")->fetch_assoc()['content'] ?? '';
+$footer_content = $conn->query("SELECT content FROM footer WHERE css = 'footer'")->fetch_assoc()['content'] ?? '';
 
 // Navigation abrufen
 $nav_items = $conn->query("SELECT * FROM navigation")->fetch_all(MYSQLI_ASSOC);
@@ -30,15 +30,8 @@ if (!$content) {
 <header>
     <?= $header_content; ?>
 </header>
-
-
-
     <nav>
-        <ul>
-            <?php foreach ($nav_items as $nav): ?>
-                <li><a href="index.php?page=<?php echo htmlspecialchars($nav['link']); ?>"><?php echo htmlspecialchars($nav['label']); ?></a></li>
-            <?php endforeach; ?>
-        </ul>
+     <?= $nav_items; ?>
     </nav>
     <main>
         <?php echo $content; ?>

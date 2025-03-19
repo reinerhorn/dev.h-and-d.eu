@@ -5,7 +5,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 include($_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php");
 include($_SERVER['DOCUMENT_ROOT'] . "/config/functions.inc.php"); // Importierte Funktionen
-
+$user_role = $_SESSION['role'] ?? 0; // Standardwert für Gäste
+$role = $user_role; // Einheitlich
+#echo "<pre>DEBUG: SESSION ROLE = " . ($_SESSION['role'] ?? 'NICHT GESETZT') . "</pre>";
+#echo "<pre>DEBUG: Verwendete ROLE = " . $role . "</pre>";
 // Prüfen, ob der Benutzer Admin ist
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != 1) {
     die("Zugriff verweigert!");
@@ -14,22 +17,47 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Daten für Header und Footer abrufen
-$role = $_SESSION['role'] ?? 0;
-$header_content = getHeaderFooterContent($conn, 'header', $role);
-$header_links = getHeaderFooterLinks($conn, 'header', $role);
-$footer_content = getHeaderFooterContent($conn, 'footer', 0);
-$footer_links = getHeaderFooterLinks($conn, 'footer', $role);
+$user_role = $_SESSION['role'] ?? 0; // Standardwert für Gäste
+$role = $user_role; // Einheitliche Nutzung
 
-$pages = $conn->query("SELECT * FROM page")->fetch_all(MYSQLI_ASSOC);
-$navigations = $conn->query("SELECT * FROM navigation")->fetch_all(MYSQLI_ASSOC);
-$users = $conn->query("SELECT * FROM plugin_login_users")->fetch_all(MYSQLI_ASSOC);
-
-$user_role = $_SESSION['role'] ?? 0; // 0 = Gast
+// Verbindung prüfen
+if (!$conn) {
+    die("Fehler: Keine Verbindung zur Datenbank.");
+}
 $headerContent = getHeaderByRole($conn, $user_role);
-?>
-<header>
-    <?= $headerContent ?>
-</header>
+if (empty($headerContent) || trim($headerContent) === '') {
+    echo "<p style='color:red;'>Fehler: Kein Header-Inhalt gefunden!</p>";
+} else {
+   #echo "<p style='color:green;'>Header erfolgreich geladen.</p>"; // Optional für Debugging
+}
+$footerContent = getFooterByRole($conn, $role);
+if (empty($footerContent)) {
+    $footerContent = "<p>Fehler: Footer nicht geladen.</p>";
+}
+
+// Links abrufen
+$footer_links = getFooterLinks($conn, $role) ?? [];
+if (!is_array($footer_links)) {
+    echo "<pre>FEHLER: getFooterLinks() hat keinen gültigen Wert zurückgegeben!</pre>";
+    var_dump($footer_links);
+    die();
+}
+$header_links = getHeaderLinks($conn, $role) ?? [];
+
+// SQL-Daten abrufen
+$pages = $conn->query("SELECT * FROM page") ? $conn->query("SELECT * FROM page")->fetch_all(MYSQLI_ASSOC) : [];
+$navigations = $conn->query("SELECT * FROM navigation") ? $conn->query("SELECT * FROM navigation")->fetch_all(MYSQLI_ASSOC) : [];
+$users = $conn->query("SELECT * FROM plugin_login_users") ? $conn->query("SELECT * FROM plugin_login_users")->fetch_all(MYSQLI_ASSOC) : [];
+
+// Sicherstellen, dass Variablen existieren
+$header_type = $_POST['header_type'] ?? '';
+$header_role = $_POST['header_role'] ?? $role; // Default to $role if not set
+ 
+// Standardüberprüfung für $header_links
+if (!isset($header_links) || !is_array($header_links)) {
+    $header_links = [];
+}
+ 
 
 ?>
 
@@ -46,43 +74,39 @@ $headerContent = getHeaderByRole($conn, $user_role);
 
 <body>
 
+    <!-- Header wird nur einmal ausgegeben -->
     <header>
-        <?= $headerContent ?>
+    <?= $headerContent ?>
     </header>
-
-    </ul>
-    </nav>
-    <?php if (empty($unique_header_links)): ?>
-        <div><?= $header_content; ?></div>
-    <?php endif; ?>
-    </header>
-
     <main>
         <h1>Admin-Bereich</h1>
         <a href="index.php">Zurück zur Webseite</a> | <a href="logout.php">Logout</a>
 
         <h2>Header verwalten</h2>
-        <form method="POST" id="headerForm">
+        <form method="POST" id="headerForm" action="admin.php">
 
             <label for="header_type">Typ:</label>
-            <input type="text" name="header_type" value="<?= htmlspecialchars($header_type ?? '') ?>" required>
+            <input type="text" name="header_type" value="<?= htmlspecialchars($header_type ?? '', ENT_QUOTES ) ?>" required>
 
             <label for="header_role">Rolle:</label>
-            <input type="text" name="header_role" value="<?= htmlspecialchars($header_role ?? '') ?>" required>
+            <input type="text" name="header_role" value="<?= htmlspecialchars($header_role ?? '', ENT_QUOTES) ?>" required>
 
             <label for="header_content">Inhalt:</label>
-            <input type="text" name="header_content" value="<?= htmlspecialchars($header_content) ?>" required>
+            <input type="text" name="header_content" value="<?= htmlspecialchars($headerContent ?? '', ENT_QUOTES) ?>" required>
         </form>
-        <ul>
-            <?php foreach ($header_links as $header): ?>
-                <li>
-                    <?= htmlspecialchars($header['content']); ?>
-                    <a href="#" onclick="editHeader(<?= $header['id'] ?? 0; ?>, '<?= htmlspecialchars($header['content'] ?? '', ENT_QUOTES); ?>', '<?= htmlspecialchars($header['type'] ?? '', ENT_QUOTES); ?>', <?= $header['role'] ?? 0; ?>); return false;">Bearbeiten</a>
-                    <a href="admin.php?delete_header=<?= isset($header['id']) ? $header['id'] : ''; ?>"
-                        onclick="return confirm('Wirklich löschen?');">Löschen</a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
+        <?php if (!empty($header_links)): ?>
+            <ul>
+                <?php foreach ($header_links as $header): ?>
+                    <li>
+                        <?= htmlspecialchars($header['content']); ?>
+                        <a href="#" onclick="editHeader(<?= $header['id'] ?? 0; ?>, '<?= htmlspecialchars($header['content'] ?? '', ENT_QUOTES); ?>', <?= $header['role'] ?? 0; ?>); return false;">Bearbeiten</a>
+                        <?php if (isset($header['id'])): ?>
+                            <a href="admin.php?delete_header=<?= $header['id']; ?>" onclick="return confirm('Wirklich löschen?');">Löschen</a>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php endif; ?>
 
         <h2>Navigation verwalten</h2>
         <script>
@@ -115,8 +139,9 @@ $headerContent = getHeaderByRole($conn, $user_role);
             <label for="nav_parent">Elternelement (Parent ID):</label>
             <input type="text" name="nav_parent">
             <button type="submit" name="save_nav">Speichern</button>
-
+            
         </form>
+
         <ul>
             <?php foreach ($navigations as $nav): ?>
                 <form method="POST" class="nav-item-form">
@@ -172,36 +197,20 @@ $headerContent = getHeaderByRole($conn, $user_role);
     </main>
 
     <footer>
-
-        <nav>
-            <ul>
-                <?php
-                $unique_links = []; // Sicherstellen, dass die Liste leer beginnt
-                foreach ($footer_links as $link):
-                    $content = trim($link['content']);
-
-                    // Falls der Inhalt bereits ausgegeben wurde, überspringen
-                    if (in_array($content, $unique_links)) {
-                        continue;
-                    }
-
-                    $unique_links[] = $content; // Füge neuen Inhalt zur Liste hinzu
-                    echo "<li>{$content}</li>";
-                endforeach;
-                ?>
-            </ul>
-        </nav>
-        <?php if (empty($unique_links)): ?>
-            <div><?= $footer_content; ?></div>
-        <?php endif; ?></div>
+    <?= $footerContent  ?>
+    <?PHP
+    echo "<pre>DEBUG: SESSION ROLE = " . ($_SESSION['role'] ?? 'NICHT GESETZT') . "</pre>";
+    echo "<pre>DEBUG: Verwendete ROLE = " . $role . "</pre>";?>
     </footer>
+ 
+    
 
     <script>
-        function editHeader(id, content, type, role) {
+        function editHeader(id, content, role) {
             document.getElementById('headerForm').setAttribute('action', 'admin.php?edit_header=' + id);
-            document.querySelector('input[name="header_type"]').value = type;
             document.querySelector('input[name="header_role"]').value = role;
             document.querySelector('input[name="header_content"]').value = content;
+            document.querySelector('input[name="header_type"]').value = '<?= htmlspecialchars($header_type ?? '') ?>'; // Typ hinzufügen
         }
     </script>
 </body>
