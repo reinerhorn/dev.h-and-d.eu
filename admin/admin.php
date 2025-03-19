@@ -39,6 +39,8 @@ $headerContent = getHeaderByRole($conn, $user_role);
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/header.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/footer.css" media="screen">
     <title>Admin-Bereich</title>
 </head>
 
