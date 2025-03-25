@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php"; 
-echo "<p>🔍 Session Role: " . ($_SESSION['role'] ?? 'Nicht gesetzt') . "</p>";
+#echo "<p>🔍 Session Role: " . ($_SESSION['role'] ?? 'Nicht gesetzt') . "</p>";
 #include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
 
 // Datenbankverbindung
