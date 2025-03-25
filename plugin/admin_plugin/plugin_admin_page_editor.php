@@ -1,13 +1,9 @@
 <?php
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-    http_response_code(403);
-    exit('Zugriff verweigert!');
-}
 if (!isset($_SESSION['admin_a'])) {
 	header('Location:/index.php');
 } 
-#include_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";   
-#$connection = getDbConnection();
+include_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";   
+$connection = getDbConnection();
 $id=""; 
 $parent_id="";
 $idx=0;

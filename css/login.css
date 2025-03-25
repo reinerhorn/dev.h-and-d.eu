@@ -1,23 +1,3 @@
-div.box {
-  border-radius: 5%;
-  box-shadow: 0px 30px 40px -20px var(--grayishBlue);
-  padding: 30px;;
-  margin: 0px;
-  width:310px;
-  max-height: fit-content;
-  color: rgb(251, 235, 7);
-  font-family: "robotocondensed";
-  cursor: pointer;
-  background-color: black;
-}
-div.box a {
-  color: rgb(251, 250, 250);
-  text-decoration-line: none;
-}
-div.box:hover {
-  color: rgb(255, 255, 255);
-}
-  
   .group{
     position:relative;
     margin-bottom:20px;
@@ -109,8 +89,6 @@ div.box:hover {
     -moz-animation:inputHighlighter 0.3s ease;
     animation:inputHighlighter 0.3s ease;
   }
-
-  
 
   @-webkit-keyframes inputHighlighter {
     from { background:#4d6be1; }

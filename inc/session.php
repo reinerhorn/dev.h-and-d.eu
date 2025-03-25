@@ -18,10 +18,10 @@ function handle_login() {
 		return;
 	}
 	if(session_exists()) {
-		$is_admin = isset($_SESSION['admin_a']) ? $_SESSION['admin_a'] == 1 : 0;
+		$is_admin = isset($_SESSION['admin_a']) ? $_SESSION['admin_a'] == 1 : 2;
 		# ADMIN : MEMBER
-		$name = $is_admin ? 'ADMIN-START' : 'MEMBER_START';
-		$page_id = $is_admin ? '1695451523' : '1741848707';
+		$name = $is_admin ? 'ADMIN-START' : 'MEMBER_BEREICH';
+		$page_id = $is_admin ? '1695451523' : '1741942625';
 		my_redirect($page_id);
 	} elseif(isset($_REQUEST['email']) && isset($_REQUEST['password'])) {
 		$db_connection = getDbConnection();

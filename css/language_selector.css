@@ -1,70 +1,35 @@
-/* 🌍 Haupt-Container für die Sprachwahl */
 #LanguageSelector {
-  z-index: 10; /* Sicherstellen, dass es sichtbar bleibt */
-  position: fixed; /* Fixiert es an die obere rechte Ecke */
-  top: 10px; /* Abstand vom oberen Rand */
-  right: 10px; /* Abstand vom rechten Rand */
-  background-color: transparent;  /* Transparenter Hintergrund */
-  border-radius: 5px; /* Abgerundete Ecken */
-  font-family: "robotocondensed", sans-serif;
+  z-index: 4;
+  position: absolute;
+  display: block;
+  top: 20px;
+  right: 20px;
+  background-color: rgb(102, 102, 102);
+  border-radius: 8px;
+  font-family: "robotocondensed";
   font-weight: bold;
   color: white;
   text-align: center;
-  line-height: 30px; /* Stellt sicher, dass Text vertikal mittig ist */
-  height: 30px; /* Fixierte Höhe */
-  padding: 0 15px; /* Links/Rechts etwas Platz für schönere Optik */
+  line-height: 20px;
+  padding: 10px;
   cursor: pointer;
-  font-size: 12px; /* Kleinere Schrift */
-  width: auto; /* Passt sich dem Inhalt an */
-  display: inline-block; /* Verhindert unnötige Verbreiterung */
 }
 
-/* Hintergrund wird GELB beim Hover */
-#LanguageSelector:hover {
-  background-color: #fae27f;
-  color: black;
-}
-
-/* 🎯 DROPDOWN-MENÜ - Mittig unter dem Haupt-Container */
 #LanguageSelector .list {
-  display: none; /* Standardmäßig versteckt */
-  position: absolute;
-  z-index: 20; /* Höher als alles andere, damit es sichtbar bleibt */
-  top: 100%; /* Direkt unterhalb des Selectors */
-  left: 50%; /* Zentriert das Dropdown relativ zum Haupt-Container */
-  transform: translateX(-50%); /* Verschiebt es um die Hälfte der Breite nach links */
-  width: max-content; /* Breite passt sich dem längsten Inhalt an */
-  background-color: white;
-  border-radius: 5px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  margin-top: 1px; /* Kleiner Abstand nach unten */
+  display: none;
 }
 
-/* 🎯 Dropdown anzeigen, wenn Maus über LanguageSelector ist */
-#LanguageSelector:hover .list {
-  display: block;
-}
-
-/* Einzelne Dropdown-Einträge */
 #LanguageSelector .list a {
   display: block;
-  padding: 5px 10px; /* Innenabstand für bessere Lesbarkeit */
-  color: black;
-  text-decoration: none;
-  text-align: center;
-  background-color: white; /* Standard-Hintergrund */
-  font-size: 12px; /* Schriftgröße einheitlich */
-  line-height: 30px; /* Fixierte Höhe für alle Einträge */
-  height: 30px; /* Maximale Höhe */
-}
-
-/* 🎨 HOVER-EFFEKT für ALLE Sprachen */
-#LanguageSelector .list a:hover {
-  background-color: #fae27f !important;
-}
-
-/* Keine ungleichmäßige Färbung mehr */
-#LanguageSelector .list a:nth-child(even),
-#LanguageSelector .list a:nth-child(odd) {
   background-color: white;
+  color: rgb(0, 0, 0);
+  line-height: 20px;
+}
+
+#LanguageSelector .list a:hover {
+  background-color: #dddddd;
+}
+ 
+#LanguageSelector .list a:nth-child(even) {
+  background-color: #dddddd;
 }

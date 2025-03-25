@@ -1,132 +1,116 @@
 <?php
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-    http_response_code(403);
-    exit('Zugriff verweigert!');
-}
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-// Prüfen, ob der Benutzer Admin ist
 if (!isset($_SESSION['admin_a'])) {
-    header('Location: /index.php');
-    exit();
+	header('Location:/index.php');
 }
 
-require_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
 $connection = getDbConnection();
+    $id=""; 
+    $fk_card_id="Null";
+    $idx="";
+    $headline="";
+    $text="";
+	$link="";
 
-// Variablen initialisieren
-$id = $fk_card_id = $idx = $headline = $text = $link = "";
-
-// Fehlerhandling aktivieren
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-
-try {
-    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action'])) {
+    if (isset($_POST['action'])) {
         $action = $_POST['action'];
-        $id = $_POST['id'] ?? "";
-
+        $id = $_POST['id'];
         if ($action == "store") {
-            $action = empty($id) ? "add" : "update";
+            $action = $id == "" ? "add" : "update";
         }
-
         if ($action == "add" || $action == "update") {
-            $fk_card_id = $_POST['fk_card_id'] ?? "";
-            $idx = $_POST['idx'] ?? "";
-            $headline = $_POST['headline'] ?? "";
-            $text = $_POST['text'] ?? "";
-            $link = $_POST['link'] ?? "";
-        }
-
+            
+            $idx = $_POST['idx'];
+            $headline = $_POST['headline'];
+            $text = $_POST['text'];
+			$link = $_POST['link'];
+        }  
         if ($action == "add") {
-            $stmt = $connection->prepare("INSERT INTO p_card_content (fk_card_id, idx, headline, text, link) VALUES (?, ?, ?, ?, ?)");
-            $stmt->bind_param("sisss", $fk_card_id, $idx, $headline, $text, $link);
-            $stmt->execute();
-            $id = $connection->insert_id;
-            $stmt->close();
-        } elseif ($action == "update" && !empty($id)) {
-            $stmt = $connection->prepare("UPDATE p_card_content SET fk_card_id=?, idx=?, headline=?, text=?, link=? WHERE id=?");
-            $stmt->bind_param("sisssi", $fk_card_id, $idx, $headline, $text, $link, $id);
-            $stmt->execute();
-            $stmt->close();
-        } elseif ($action == "delete" && !empty($id)) {
-            $stmt = $connection->prepare("DELETE FROM p_card_content WHERE id=?");
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $stmt->close();
+            $prepared_stmt = $connection->prepare(
+            "INSERT INTO p_card_content (idx ,headline, text, link) VALUES (?, ?, ?, ?)"
+            );
+            $prepared_stmt->bind_param("isss",   $idx ,$headline, $text, $link);
+            $prepared_stmt->execute();
+            $result = $connection->query("SELECT id FROM p_card_content ORDER BY id DESC LIMIT 1");
+            if ($rec = $result->fetch_assoc()) {
+                $id = $rec['id'];
+            }
+        } elseif ($action == "update") {
+            $prepared_stmt = $connection->prepare(
+                "UPDATE p_card_content SET fk_card_id=?, idx=? ,headline=?, text=?, link=? WHERE id=?"
+            );
+            $prepared_stmt->bind_param("sissss", $fk_card_id, $idx ,$headline, $text, $link, $id);
+            $prepared_stmt->execute();
+        } elseif ($action == "delete") {
+            $prepared_stmt = $connection->prepare(
+                "DELETE FROM p_card_content WHERE id=?"
+            );
+            $prepared_stmt->bind_param("s", $id);
+            $prepared_stmt->execute();
             $id = "";
             $action = "add";
-        } elseif ($action == "edit" && !empty($id)) {
-            $stmt = $connection->prepare("SELECT fk_card_id, idx, headline, text, link FROM p_card_content WHERE id=?");
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $stmt->bind_result($fk_card_id, $idx, $headline, $text, $link);
-            $stmt->fetch();
-           /* $stmt->close();*/
+        } elseif ($action == "edit") {
+            $prepared_stmt = $connection->prepare(
+                "SELECT * FROM p_card_content WHERE id=?"
+            );
+            $prepared_stmt->bind_param("s", $id);
+            $prepared_stmt->execute();
+            $card_result = $prepared_stmt->get_result();
+            if ($card_rec = $card_result->fetch_assoc()) {
+				$fk_card_id = $card_rec['fk_card_id'];
+				$idx = $card_rec['idx'];
+				$headline = $card_rec['headline'];
+				$text = $card_rec['text'];
+				$link = $card_rec['link'];
+            }
         }
-    }
-} catch (mysqli_sql_exception $e) {
-    die("Datenbankfehler: " . $e->getMessage());
-}
-
-// Verbindung erst am Ende schließen
-/*$connection->close();*/
+    } 
 ?>
-
 <div class="flex_container">
     <form name="editor" action="" method="post">
         <input type="hidden" name="action" value="page">
-        <input type="hidden" name="id" value="<?= htmlspecialchars($id, ENT_QUOTES, 'UTF-8'); ?>">
-
+        <input type="hidden" name="id" value="<?php echo isset($_POST['id']) ? $_POST['id'] : 'neu' ?>">
         <select name="record_selection" onchange="selectRecord()">
-            <option value="">auswählen...</option>
-            <option value="neu">neu</option>
-            <option value="-" disabled></option>
-            <?php
-            $connection = getDbConnection(); // Verbindung erneut öffnen
-            $stmt = $connection->prepare("SELECT id, fk_card_id FROM p_card_content");
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            while ($page = $result->fetch_assoc()) {
-                echo '<option value="' . htmlspecialchars($page['id'], ENT_QUOTES, 'UTF-8') . '">' . 
-                     htmlspecialchars($page['fk_card_id'], ENT_QUOTES, 'UTF-8') . '</option>' . PHP_EOL;
-            }
-            $stmt->close();
-            
-            ?>
-        </select>
-        <br><br>
-
-        <div class="group">
-            <input type="text" id="idx" name="idx" class="input_color" value="<?= htmlspecialchars($idx, ENT_QUOTES, 'UTF-8'); ?>" required>
-            <span class="highlight"></span>
-            <span class="bar"></span>
-            <label for="idx">Index</label>
-        </div>
-
-        <div class="group">
-            <input type="text" id="headline" name="headline" class="input_color" value="<?= htmlspecialchars($headline, ENT_QUOTES, 'UTF-8'); ?>" required>
-            <span class="highlight"></span>
-            <span class="bar"></span>
-            <label for="headline">Headline</label>
-        </div>
-
-        <div class="group">
-            <input type="text" id="text" name="text" class="input_color" value="<?= htmlspecialchars($text, ENT_QUOTES, 'UTF-8'); ?>" required>
-            <span class="highlight"></span>
-            <span class="bar"></span>
-            <label for="text">Text</label>
-        </div>
-
-        <div class="group">
-            <input type="text" id="link" name="link" class="input_color" value="<?= htmlspecialchars($link, ENT_QUOTES, 'UTF-8'); ?>" required>
-            <span class="highlight"></span>
-            <span class="bar"></span>
-            <label for="link">Link</label>
-        </div>
-
-        <button type="submit" onclick="this.form.elements['action'].value='store'">Speichern</button>
-        <button type="submit" onclick="this.form.elements['action'].value='delete'">Löschen</button>
-    </form>
+           <option value="">auswählen...</option>
+           <option value="neu">neu</option>
+           <option value="-" disabled=disabled></option>
+           <?php
+               $stmt = $connection->prepare("SELECT * FROM p_card_content WHERE 1");
+               $stmt->execute();
+               $result = $stmt->get_result();
+               while($page = $result->fetch_assoc()) {
+                   echo '<option value="' . $page['id'] . '">' . $page['fk_card_id'] .'</option>' . PHP_EOL; 
+               }
+               $connection->close();
+           ?>
+       </select>
+<br><br>
+ 
+    <div class="group">
+    <input type="text" id="idx" name="idx" class="input_color" value="<?php echo $idx?>" required>
+        <span class="highlight" value="true"></span>
+        <span class="bar" value="true"></span>
+        <label type="text" for="idx">Index</label>
+    </div>
+    <div class="group">
+    <input type="text" id="headline" name="headline" class="input_color" value="<?php echo $headline?>" required>
+        <span class="highlight" value="true"></span>
+        <span class="bar" value="true"></span>
+        <label type="text" for="headline">Headline</label>
+    </div>
+    <div class="group">
+        <input type="text" id="text" name="text" class="input_color" value="<?php echo $text?>" required>
+        <span class="highlight" value="true"></span>
+        <span class="bar" value="true"></span>
+        <label type="text" for="text">Text</label>
+    </div>
+    <div class="group">
+        <input type="text" id="link" name="link" class="input_color" value="<?php echo $link?>" required>
+        <span class="highlight" value="true"></span>
+        <span class="bar" value="true"></span>
+        <label type="text" for="link">Link</label>
+    </div>
+  
+        <button onclick="this.form.elements['action'].value='store'" type="submit">Speichern</button>
+        <button onclick="this.form.elements['action'].value='delete'">Löschen</button>
+</form>
 </div>

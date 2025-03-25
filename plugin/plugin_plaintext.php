@@ -1,17 +1,10 @@
 <?php
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-  http_response_code(403);
-  exit('Zugriff verweigert!');
-}
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
 try {
   if(isset($print_all) && $print_all) {
-    $stmt = $connection->prepare("SELECT * FROM page_config JOIN p_content_plaintext ON page_config.plugin_content_id=p_content_plaintext.id WHERE UNIX_TIMESTAMP(page_config.fk_page_id)=? AND fk_language_id=? ORDER BY p_content_plaintext.idx ASC");
+    $stmt = $main_db_connection->prepare("SELECT * FROM page_config JOIN p_content_plaintext ON page_config.plugin_content_id=p_content_plaintext.id WHERE UNIX_TIMESTAMP(page_config.fk_page_id)=? AND fk_language_id=? ORDER BY p_content_plaintext.idx ASC");
     $stmt->bind_param('is', $_REQUEST['page'], $_SESSION['language']);
   } else {
-    $stmt = $connection->prepare(
+    $stmt = $main_db_connection->prepare(
       'SELECT * FROM p_content_plaintext WHERE id=? AND fk_language_id=? LIMIT 1'
     );
     $stmt->bind_param('ss', $plugin_content_id, $_SESSION['language']);
@@ -22,7 +15,7 @@ try {
     $headline = $record['headline'];
     echo '<h1>' . $headline . '</h1>';
     $text = $record['text'];
-    echo '<div class="center-text"> ' . $text . '</div>';
+    echo '<div class="holder"> ' . $text . '</div>';
   }
 } catch(Error $err) {
   echo PHP_EOL . '<br><b>ERROR: ' . $err . '</b>';

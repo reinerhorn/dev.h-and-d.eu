@@ -1,8 +1,4 @@
 <?php
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-    http_response_code(403);
-    exit('Zugriff verweigert!');
-}
 if (!isset($_SESSION['admin_a'])) {
 	header('Location:/index.php');
 } 
@@ -72,7 +68,7 @@ if (isset($_POST['action'])) {
     }
 }
 ?>
- <div class="flex_container_1">  
+ <div class="flex_container">  
 <form name="editor" action="" method="post">
     <input type="hidden" name="action" value="">
     <select onchange="if(this.options[this.selectedIndex].value=='reset') {resetForm(this.form)} else {this.form.elements['action'].value='load_config'; this.form.submit()}" name="page_config_id" onchange="">
@@ -165,11 +161,11 @@ if (isset($_POST['action'])) {
                 echo '<option>keine Tabelle zugewiesen</option>';
             }
         }
-       /* $$stmt->close();*/
+        $connection->close();
     ?>
     </select>
    <br><br>
-   <button onclick="this.form.elements['action'].value='store'" type="submit">Speichern</button>
-   <button onclick="this.form.elements['action'].value='delete'">Löschen</button>
+        <button onclick="this.form.elements['action'].value='store'" type="submit">Speichern</button>
+        <button onclick="this.form.elements['action'].value='delete'">Löschen</button>
 </form>
 </div>

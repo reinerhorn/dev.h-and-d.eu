@@ -1,8 +1,4 @@
 <?php
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
-    http_response_code(403);
-    exit('Zugriff verweigert!');
-}
 if (!isset($_SESSION['admin_a'])) {
 	header('Location:/index.php');
 }
@@ -90,7 +86,7 @@ if (isset($_POST['action'])) {
            while($rec = $result->fetch_assoc()) {
                echo '<option value="' . $rec['id'] . '">' . $rec['label'] .'</option>' . PHP_EOL;
            }
-          /* $stmt->close();*/
+           $connection->close();
        ?>
    </select>
    <br><br>

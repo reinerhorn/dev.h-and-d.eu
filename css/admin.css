@@ -1,0 +1,202 @@
+@font-face {
+  font-family: "greatvibes";
+  src: URL("../fonts/greatvibes/GreatVibes-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "robotocondensed";
+  src: URL("../fonts/robotocondensed/robotocondensedlight.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "RobotoCondensedRegular";
+  src: URL("../fonts/robotocondensed/RobotoCondensed-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "RobotoCondensedBold";
+  src: URL("../fonts/robotocondensed/RobotoCondensed-Bold.woff2") format("woff2");
+}
+:root {
+  --red: hsl(0, 78%, 62%);
+  --orange: hsl(42, 93%, 50%);
+  --blue: hsl(219, 85%, 65%);
+  --yellow: rgb(251, 222, 5);
+  --varyDarkBlue: hsl(234, 98%, 48%);
+  --grayishBlue: hsl(48, 4%, 25%);
+  --veryLightGray: hsl(0, 0%, 98%);
+  --normalcolorwhite:white;
+  --normalcolorblack:black;
+  --background-color: rgba(225, 199, 33, 0.114);
+ 
+  
+}
+
+html,
+body {
+  height: 100%;
+  background-color: rgba(225, 199, 33, 0.114);
+}
+body {
+  width: 100%;
+  overflow: hidden; 
+}
+.header {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 0;
+  top: 0px;
+  width: 100%;
+  height: 80px; 
+  background-color:blue;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.logo {
+   position:absolute;
+   top:0;
+   left:20px;  
+   width: 80px; 
+}
+.header a.companyname {
+  font-family: "greatvibes";
+  font-size: 30pt;
+  background-image: linear-gradient(90deg, orange, rgb(241, 229, 7));
+  background-clip: text;
+  text-decoration: none;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.content {
+  display: block;
+  position: absolute;
+  top: 120px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding-right: 10%;
+  padding-left: 10%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.card-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ 
+#Navigation {
+  position: absolute;
+  top: 80px;
+  width: 100%;
+  left:0px;
+  box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
+  height: 30px;
+  background-color: rgb(102, 102, 102);
+  color: var(--normalcolorwhite);   
+}
+#Navigation div {
+  position: relative;
+  display: inline-block;
+}
+#Navigation div div {
+  position: absolute;
+  left: 0;
+  top: 30px;
+}
+#Navigation div:hover .navigationDropDown {
+  display: block !important;
+}
+#Navigation a {
+  line-height: 30px;
+  font-family: "robotocondensed";
+  color: var(--normalcolorwhite);
+  display: inline-block;
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  letter-spacing: 0.4pt;
+  font-size: 12pt; 
+  border : #fae27f !important; 
+}
+#Navigation a.marked {
+  background-color: black;
+   
+}
+#Navigation a:hover {
+ background-color: #fae27f;
+  color: black;
+}
+.navigationDropDown { 
+  display: none !important;
+  position: relative;
+  z-index: 2;
+  min-width: 100%;
+  top: 30px;
+  left: 0;  
+  line-height: 30px;
+  background-color: rgb(102, 102, 102);
+  color: var(--normalcolorwhite);
+  overflow: hidden;
+}
+.navigationDropDown:hover {
+  display: block !important;
+}
+.navigationDropDown a { 
+  display: block !important;
+  font-family: "robotocondensed";
+  color: var(--normalcolorwhite);
+  text-decoration: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  letter-spacing: 0.4pt;  
+  font-size: 15px;
+}
+.navigationDropDown a:hover {
+  background-color: #fae27f;
+  color: black;
+}
+footer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  color: rgb(102, 102, 102);
+  font-weight: bold;
+  font-size: 10px;
+  font-family: "robotocondensed";
+}
+footer a {
+  color: rgb(8, 7, 7);
+  font-weight: bold;
+  text-decoration: none;
+}
+footer a:hover {
+  color: var( --border);
+  font-weight: bold;
+  text-decoration: none;
+ position: absolute;
+}
+
+.form{
+  width: 200px;
+  height:200px;  
+ }
+
+ div.box {
+ box-sizing: border-box; 
+ border: 3px solid gray; 
+ padding: 15px; 
+ width: 600px;
+} 
+div.box1 {
+margin-top:10px;
+ box-sizing: border-box; 
+ border: 1px solid gray; 
+ padding: 15px; 
+ width: 180px;
+
+} 
