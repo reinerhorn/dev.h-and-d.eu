@@ -52,7 +52,7 @@ body {
   align-items: center;
   justify-content: center;
   left: 0;
-  top: 0;
+  top: 90;
   width: 100%;
   min-height: 80px; /* Stelle sicher, dass der Header eine Mindesthöhe hat */
   padding: 20px; /* Abstand um den Inhalt */
@@ -78,6 +78,7 @@ body {
 }
 /*Admin  Headers */
 .admin-header {
+ 
   background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
   box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
