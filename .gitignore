@@ -1,0 +1,10 @@
+.DS_Store
+.Trash/
+Library/
+.vscode/
+node_modules/
+vendor/
+*.log
+*.pem
+*.key
+config.inc.php
