@@ -6,6 +6,6 @@ if ($mysqli->connect_errno) {
   }*/
 function getDbConnection()
 {
-  return new mysqli("", "root", "101TanZen101", "dbs06091954");
+  return new mysqli("", "root", "101TanZen101", "dbs060954hd");
 } 
 ?>

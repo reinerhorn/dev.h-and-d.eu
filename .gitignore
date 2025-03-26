@@ -7,17 +7,9 @@ dev/
 config/
 .vscode/
 .gitignore
-
-# Bestimmte Dateien ignorieren
-<<<<<<< Updated upstream
-config.ini.php
-=======
-config.inc.php
->>>>>>> Stashed changes
 .env
 debug.log
-.gitignore
-handd.erd.json
+ 
 
 # Alle .log-Dateien ignorieren
 *.log

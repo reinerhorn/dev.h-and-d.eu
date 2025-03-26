@@ -15,6 +15,7 @@ if($istUserAngemeldet){
 $datum="";
     $datum .= date('d.m.Y l H:i:s');
     $datum .= '<br> Einen schönen, guten Tag: ' . $user . '<br>';
+    
 // besucher ip   Zeile 3 spalte 3
     $db_connector = getDbConnection();
     $stmt = $db_connector->prepare('SELECT * FROM plugin_besucher');
