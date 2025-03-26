@@ -9,7 +9,11 @@ config/
 .gitignore
 
 # Bestimmte Dateien ignorieren
+<<<<<<< Updated upstream
 config.ini.php
+=======
+config.inc.php
+>>>>>>> Stashed changes
 .env
 debug.log
 .gitignore
