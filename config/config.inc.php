@@ -1,11 +1,17 @@
 <?php
-/*$mysqli = new mysqli("", "root", "101TanZen101", "dbs06091854");
-if ($mysqli->connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli->connect_error;
-   exit();
-  }*/
-function getDbConnection()
-{
-  return new mysqli("", "root", "101TanZen101", "dbs060954hd");
-} 
+
+function getDbConnection() {
+  static $connection = null;
+
+  if ($connection === null) {
+      $connection = new mysqli("localhost", "root", "101TanZen101", "dbs060954hd");
+      if ($connection->connect_error) {
+          error_log("Datenbankverbindungsfehler: " . $connection->connect_error);
+          die("<h1>Datenbank nicht erreichbar</h1>");
+      }
+  }
+  return $connection;
+}
+ 
+
 ?>
