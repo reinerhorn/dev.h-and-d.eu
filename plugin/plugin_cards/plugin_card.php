@@ -41,13 +41,9 @@ if ($result->num_rows > 0) {
     $cards_three = "<p>Keine Karten verfügbar.</p>";
 }
 
-/*$db_connector->close();*/
+/*$result->close();*/
 ?>
 
-<style>
-
-	</style>
- 
 <div class="card_container">
     <div class="three">
         <?= $cards_three ?>
