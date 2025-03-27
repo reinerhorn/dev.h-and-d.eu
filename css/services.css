@@ -76,10 +76,10 @@ div.button:hover {
 	justify-content: center;
   
 }
-.three, .one {display: flex;flex-direction: rows;align-items: center;justify-content: center; gap: 20px;width: 100%;}
+.three, .one {display: flex;  align-items: center;justify-content: center; gap: 20px;width: 100%;}
 .three {background-color: transparent;}
 
-.one {margin-top: 20px;background-color: yellow;}
+.one {margin-top: 20px;background-color: transparent;}
 
 .one div,.three div {width: 300px;border-top: 6px solid darkred;padding: 10px;border-radius: 20px;background-color: white;box-shadow: 0 10px 10px rgba(0,0,0,0.3);}
 

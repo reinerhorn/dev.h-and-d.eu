@@ -18,7 +18,7 @@
 }
 $datum="";
 $datum .= date('d.m.Y l H:i:s').'<br>';
-$datum .= ' Einen schönen, guten Tag: ' . $user . '<br><a href="javascript: location.href=\'/plugin/plugin_logout.php\'">Logout</a>';
+$datum .= ' Einen schönen, guten Tag: ' . $user .' </a>';
 echo $datum;
  ?>
  
