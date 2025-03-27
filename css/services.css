@@ -90,4 +90,24 @@ div.button:hover {
 #login-button .login-button-text{color: rgb(243, 249, 249);  }
 div form {margin-top: 0; width: 300px; padding: 40px;} 
 .input_color{color:black;}
+
+
+
+div.visitors_container {
+  bottom: 0;
+  text-align: center;
+  height: 200px;
+  overflow-y: scroll; /* Show vertical scrollbar */
+  overflow-x: scroll;
+  padding: 10px;
+}
+.visitorChart {
+  font-family: Arial, sans-serif;
+  text-align: center;
+ width:600px;
+  height: 400px;
+  color:black;
+  overflow: scroll;
+  padding: 10px;
+ }
  
