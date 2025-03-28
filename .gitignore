@@ -8,3 +8,5 @@ vendor/
 *.pem
 *.key
 config.inc.php
+.dbclient/
+.zsh_history
