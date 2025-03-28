@@ -39,7 +39,6 @@ $datum="";
         $css = $_POST['css'] ?? '';
         $role = isset($_POST['role']) ? (int)$_POST['role'] : null;
         $image = isset($_FILES['image']) ? uploadImage($_FILES['image']) : '';
-    
         $stmt = $conn->prepare("INSERT INTO header (text, link, images, language, label, css, role) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssssi", $text, $link, $image, $language, $label, $css, $role);
         $stmt->execute();
@@ -54,10 +53,9 @@ $datum="";
         $label = $_POST['label'] ?? '';
         $css = $_POST['css'] ?? '';
         $role = isset($_POST['role']) ? (int)$_POST['role'] : null;
-        $image = (!empty($_FILES['image']['name'])) ? uploadImage($_FILES['image']) : ($_POST['current_image'] ?? '');
-    
-        $stmt = $conn->prepare("UPDATE header SET text=?, link=?, images=?, language=?, label=?, css=?, role=? WHERE id=STR_TO_DATE(?, '%Y-%m-%d %H:%i:%s')");
-        $stmt->bind_param("sssssssi", $text, $link, $image, $language, $label, $css, $role, $id);
+        $image = (!empty($_FILES['image']['name'])) ? uploadImage($_FILES['image']) : ($_POST['current_image'] ?? '');  
+        $stmt = $conn->prepare("UPDATE header SET text=?, link=?, images=?, language=?, label=?, css=?, role=? WHERE id=?");
+        $stmt->bind_param("ssssssis", $text, $link, $image, $language, $label, $css, $role, $id);
         $stmt->execute();
     }
     
@@ -117,5 +115,4 @@ $datum="";
         </tr>
         <?php endwhile; ?>
     </table>
-</body>
-</html>
+ 
