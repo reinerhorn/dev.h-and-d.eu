@@ -1,11 +1,13 @@
 <?php
+#include $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
 // Session starten, falls noch nicht aktiv
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
+#$conn = getDbConnection();
 // Datenbankverbindung herstellen
 $connection = new mysqli("localhost", "root", "101TanZen101", "dbs060954hd");
+
 if ($connection->connect_error) {
     die("Datenbankverbindung fehlgeschlagen: " . $connection->connect_error);
 }
