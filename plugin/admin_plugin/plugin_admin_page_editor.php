@@ -14,7 +14,8 @@ $fk_translation_placeholder ="";
 $meta_keywords="";  
 $meta_description="";
 $enabled=0;
-$print_all=0;;
+$print_all=0;
+$admin_role=0;
 
 if (isset($_POST['action'])) {
     $action = $_POST['action'];
@@ -33,12 +34,13 @@ if (isset($_POST['action'])) {
         $meta_description = $_POST['meta_description'];
         $print_all = $_POST['print_all'];
         $enabled = $_POST['enabled'];
+        $admin_role = $_POST['role'];
     }  
     if ($action == "add") {
         $prepared_stmt = $connection->prepare(
-        "INSERT INTO page (parent_id ,idx, name, type, css, fk_translation_placeholder, meta_keywords, meta_description, print_all, enabled) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )"
+        "INSERT INTO page (parent_id ,idx, name, type, css, fk_translation_placeholder, meta_keywords, meta_description, print_all, enabled, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)"
         );
-        $prepared_stmt->bind_param("sissssssii",$parent_id ,$idx, $name, $type, $css, $fk_translation_placeholder, $meta_keywords, $meta_description, $print_all, $enabled);
+        $prepared_stmt->bind_param("sissssssiii",$parent_id ,$idx, $name, $type, $css, $fk_translation_placeholder, $meta_keywords, $meta_description, $print_all, $enabled, $admin_role);
         $prepared_stmt->execute();
         $result = $connection->query("SELECT id FROM page ORDER BY id DESC LIMIT 1");
         if ($rec = $result->fetch_assoc()) {
@@ -46,9 +48,9 @@ if (isset($_POST['action'])) {
         }
     } elseif ($action == "update") {
         $prepared_stmt = $connection->prepare(
-            "UPDATE page SET parent_id=?, idx=?, name=?, type=?, css=?, fk_translation_placeholder=?, meta_keywords=?, meta_description=?, print_all=?, enabled=? WHERE id=?"
+            "UPDATE page SET parent_id=?, idx=?, name=?, type=?, css=?, fk_translation_placeholder=?, meta_keywords=?, meta_description=?, print_all=?, enabled=?, role WHERE id=?"
         );
-        $prepared_stmt->bind_param("sissssssiis", $parent_id ,$idx, $name, $type, $css, $fk_translation_placeholder, $meta_keywords, $meta_description, $print_all, $enabled, $id);
+        $prepared_stmt->bind_param("sissssssiisi", $parent_id ,$idx, $name, $type, $css, $fk_translation_placeholder, $meta_keywords, $meta_description, $print_all, $enabled,$admin_role, $id);
         $prepared_stmt->execute();
     } elseif ($action == "delete") {
         $prepared_stmt = $connection->prepare(
@@ -76,6 +78,7 @@ if (isset($_POST['action'])) {
             $meta_description = $rec['meta_description'];
             $print_all = $rec['print_all'];
             $enabled = $rec['enabled'];
+            $admin_page = $rec['role'];
         }
     }
 } 
@@ -161,10 +164,10 @@ if (isset($_POST['action'])) {
         <label type="text" for="print_all">Print All</label>
     </div>
     <div class="group">
-    <input type="text" id="admin_page " name="admin_page " class="input_color" value="<?php echo $admin_page?>">
+    <input type="text" id="admin_page " name="admin_page " class="input_color" value="<?php echo $admin_role?>">
         <span class="highlight" value=""></span>
         <span class="bar" value=""></span>
-        <label type="text" for="admin_page">Print All</label>
+        <label type="text" for="admin_page">Admin</label>
     </div>
  
 <br><br>

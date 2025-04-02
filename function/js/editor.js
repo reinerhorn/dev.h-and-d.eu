@@ -4,6 +4,9 @@ function getTinyMceBody() {
     let body = doc.body;
     return body;
 }
+function resetTinyMce() {
+    getTinyMceBody().innerHTML = "";
+}
 
 function submitEditor() {
     //let content = getTinyMceBody().innerHTML;
@@ -13,9 +16,7 @@ function submitEditor() {
     form.submit();
 }
 
-function resetTinyMce() {
-    getTinyMceBody().innerHTML = "";
-}
+
 
 function resetForm(form) {
     let elements = form.elements;

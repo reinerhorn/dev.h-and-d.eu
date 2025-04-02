@@ -1,9 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php"; 
-
-#echo "<p>🔍 Session Role: " . ($_SESSION['role'] ?? 'Nicht gesetzt') . "</p>";
-#include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/web_besucher.php";
-
+include_once $_SERVER['DOCUMENT_ROOT'] . "/inc/session.php";
 // Datenbankverbindung
 $main_db_connection = getDbConnection();
 if (!$main_db_connection) {
@@ -41,16 +37,14 @@ if (!$main_db_connection) {
     echo '<!-- Debug: LanguageSelector geladen -->';
 
 ?>
- 
-  
+
 </head>
 
 <body>
 
 <header>
 <?php
- 
- 
+
 $role = isset($_SESSION['admin_a']) ? (int) $_SESSION['admin_a'] : null;
 $language = 'de'; // Falls die Sprache nicht aus der Session kommt, setze hier die gewünschte Standardsprache.
 
@@ -68,7 +62,7 @@ if ($header_result->num_rows > 0) {
     $stmt->bind_param("s", $language);
     $stmt->execute();
     $header_result = $stmt->get_result();
-    
+
     if ($header_result->num_rows > 0) {
         $rec = $header_result->fetch_assoc();
     } else {
@@ -86,10 +80,10 @@ if ($rec) {
     error_log("❌ Kein Header gefunden.");
 }
 
-#$stmt->close();
+$stmt->close();
+
  ?>
 
- 
     <navi>
     <div id="Navigation">
         <?php
@@ -100,7 +94,7 @@ if ($rec) {
         }
         include $_SERVER['DOCUMENT_ROOT'] . '/function/php/navi.inc.php';
         ?>
-        
+
     </div>
 </navi>
 
@@ -110,7 +104,6 @@ if ($rec) {
 <div class="content">  
 <?php
 // Verbindung zur Datenbank herstellen
- 
 
 if ($main_db_connection->connect_error) {
     die("Verbindung fehlgeschlagen: " . $main_db_connection->connect_error);
@@ -175,11 +168,11 @@ while ($record = $result->fetch_assoc()) {
     // Definiere eine Liste möglicher Verzeichnisse
     $plugin_paths = [
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/',         // Standardverzeichnis
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/admin_plugin/',  
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_login/',  
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_member/',  
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_cards/',  
-        $_SERVER['DOCUMENT_ROOT'] . '/extra_plugin/',   
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/admin_plugin/',
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_login/',
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_member/',
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_cards/',
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/extra_plugin/',
     ];
 
     $plugin_found = false;
@@ -222,9 +215,9 @@ $stmt->close();
     } else {
         error_log("❌ Fehler beim Laden des Footers.");
     }
-    ?> 
-    
+    ?>
+
 </footer>
- 
+
 </body>
 </html>
