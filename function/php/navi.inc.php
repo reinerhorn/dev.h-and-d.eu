@@ -46,8 +46,8 @@ if ($role === 1) {
 }
 
 // Debugging (nur zur Fehlersuche, später entfernen)
-echo "Role: $role <br>";
-echo "Page ID: " . ($page_id ?: "Keine") . "<br>";
+#echo "Role: $role <br>";
+#echo "Page ID: " . ($page_id ?: "Keine") . "<br>";
 
 ?>
 

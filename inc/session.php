@@ -1,13 +1,7 @@
 <?php 
 session_start();
-
-#$docRoot = $_SERVER['DOCUMENT_ROOT'] ?: '/Users/reinerhorn/Sites/dev.h-and-d.eu';
-#include $docRoot . "/config/config.inc.php";
-#include '/Users/reinerhorn/Sites/dev.h-and-d.eu/config/config.inc.php';
 include $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
-#die('DOCUMENT_ROOT: ' . $_SERVER['DOCUMENT_ROOT']);
-#die('DOCUMENT_ROOT: ' . $_SERVER['DOCUMENT_ROOT']);
-#include __DIR__ . '/../config/config.inc.php';
+
 $main_db_connection = getDbConnection();
 
 function session_exists() {

@@ -1,3 +1,4 @@
+<?php echo "<!-- ✅ Language Selector geladen -->";?>
 <div id="LanguageSelector" onclick="toggleLanguageMenu()">
 	<div class="label">
 	<?php

@@ -12,12 +12,11 @@ if (!$main_db_connection) {
 <head>
 <meta charset="UTF-8">
 <title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
-<link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
-<link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/checkbox.css" media="screen">   
-<link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/navi.css" media="screen">    
+    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
+    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/checkbox.css" media="screen">
+    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/navi.css" media="screen">
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/services.css" media="screen">
-    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">   
-    
+    <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/language_selector.css" media="screen">
     <link rel="icon" href="/images/icon/favicon.ico" type="image/x-icon">
     <?php
     if(isset($_REQUEST['language'])) {
@@ -34,7 +33,7 @@ if (!$main_db_connection) {
     }
     $_SESSION['language'] = $language;
 
-    echo '<!-- Debug: LanguageSelector geladen -->';
+   # echo '<!-- Debug: LanguageSelector geladen -->';
 
 ?>
 
@@ -81,9 +80,14 @@ if ($rec) {
 }
 
 $stmt->close();
-
+if (!file_exists($_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php')) {
+    error_log("❌ language_selector.inc.php nicht gefunden!");
+} else {
+    error_log("✅ language_selector.inc.php gefunden.");
+}
+ include $_SERVER['DOCUMENT_ROOT'] . '/function/php/language_selector.inc.php'
  ?>
-
+ 
     <navi>
     <div id="Navigation">
         <?php
@@ -218,6 +222,7 @@ $stmt->close();
     ?>
 
 </footer>
-
+<script src="/function/js/editor.js"></script>
+<script src="function/js/language_selector.js"></script>
 </body>
 </html>

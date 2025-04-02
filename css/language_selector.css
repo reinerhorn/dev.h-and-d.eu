@@ -1,7 +1,6 @@
 #LanguageSelector {
-  z-index: 4;
-  position: absolute;
-  display: block;
+ 
+  position: fixed;  /* Fixed Position statt absolute */
   top: 20px;
   right: 20px;
   background-color: rgb(102, 102, 102);
@@ -17,13 +16,15 @@
 
 #LanguageSelector .list {
   display: none;
+  z-index: 9999;
 }
 
 #LanguageSelector .list a {
   display: block;
   background-color: white;
   color: rgb(0, 0, 0);
-  line-height: 20px;
+  line-height: 40px;  /* Etwas mehr Platz für Klickbarkeit */
+  padding: 5px 10px;  /* Mehr Abstand */
 }
 
 #LanguageSelector .list a:hover {

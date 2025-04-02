@@ -54,17 +54,17 @@ body {
   left: 0;
   top: 0;
   width: 100%;
-  min-height: 80px; /* Stelle sicher, dass der Header eine Mindesthöhe hat */
+  min-height: 120px; /* Stelle sicher, dass der Header eine Mindesthöhe hat */
   padding: 20px; /* Abstand um den Inhalt */
-  
   background-image: repeating-conic-gradient(from 1turn, rgb(0, 0, 0) 20.59%, rgb(1, 66, 246) 76.05%, rgb(252, 202, 1) 83.61%);
   box-shadow: 0px 10px 29px -10px rgba(0, 0, 0, 0.3);
   overflow: hidden;
-  z-index: 10;
+ 
 }
 
 .header .logo {
   width: 100px;
+  height: auto; /* Erhält das Verhältnis des Logos */
 }
 
 .header a.companyname {
