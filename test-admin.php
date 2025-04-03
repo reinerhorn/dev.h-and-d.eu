@@ -1,15 +1,20 @@
-<script src="/function/js/chart.js"></script>
-<script src="/function/js/charts-loader.js"></script>
 <style>
-.admin_container {
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 20px;
+    padding: 20px;
+}
+
+.container {
     display: flex;
     justify-content: space-between;
     gap: 20px;
-    max-width: 1400px;
+    max-width: 1100px;
     margin: auto;
 }
 
-.admin_box {
+.box {
     flex: 1;
     background: #ffffff;
     padding: 20px;
@@ -18,7 +23,10 @@
     min-width: 400px;
 }
 
- 
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
 
 form {
     display: flex;
@@ -73,29 +81,12 @@ img {
 }
     </style>
 <?php
- 
-if (!isset($_SESSION['admin_a'])) {
-	header('Location:/index.php');
+include $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
+
+$main_db_connection = getDbConnection();
+if (!$main_db_connection) {
+    die('<p>Fehler: Datenbankverbindung nicht gesetzt.</p>');
 }
-//  Zeile 1 spalte 1
-if(isset( $_SESSION["admin_a"]));
-$istUserAngemeldet = isset( $_SESSION["admin_a"]);
-if($istUserAngemeldet){
-  $user= $_SESSION["name"] ;
-} else {
-  $user = "";
-}
-$datum="";
-    $datum .= date('d.m.Y l H:i:s');
-    $datum .= '<br> Einen schönen, guten Tag: ' . $user . '<br>';
-
-    $main_db_connection = getDbConnection();
-    if (!isset($main_db_connection)) {
-      die('<p>Fehler: Datenbankverbindung nicht gesetzt.</p>');
-    }
-
-
- 
 
 // **Verarbeitung von POST-Daten nur für den jeweiligen Bereich**
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type'])) {
@@ -191,9 +182,9 @@ $selected_footer = $footers[$selected_footer_id] ?? [
  </head>
  <body>
  
- <div class="admin_container">
+ <div class="container">
      <!-- HEADER -->
-     <div class="admin_box">
+     <div class="box">
          <h2>Header bearbeiten</h2>
          <form method="post" enctype="multipart/form-data">
              <input type="hidden" name="type" value="header">
@@ -228,7 +219,7 @@ $selected_footer = $footers[$selected_footer_id] ?? [
      </div>
  
      <!-- FOOTER -->
-     <div class="admin_box">
+     <div class="box">
          <h2>Footer bearbeiten</h2>
          <form method="post" enctype="multipart/form-data">
              <input type="hidden" name="type" value="footer">
@@ -265,4 +256,3 @@ $selected_footer = $footers[$selected_footer_id] ?? [
  
  </body>
  </html>
- 
