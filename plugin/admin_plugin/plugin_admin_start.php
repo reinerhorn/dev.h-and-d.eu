@@ -4,7 +4,7 @@
 .admin_container {
     display: flex;
     justify-content: space-between;
-    gap: 20px;
+    gap: 10px;
     max-width: 1400px;
     margin: auto;
 }
@@ -15,7 +15,7 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    min-width: 400px;
+    min-width: 100px;
 }
 
  
@@ -261,7 +261,11 @@ $selected_footer = $footers[$selected_footer_id] ?? [
              </div>
          </form>
      </div>
- </div>
+     
+     <div class="admin_box">
+         <h2>XX bearbeiten</h2>
+     </div>
+   </div>               
  
  </body>
  </html>
