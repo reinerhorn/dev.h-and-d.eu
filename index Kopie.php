@@ -7,38 +7,11 @@ if (!$main_db_connection) {
 }
  
 ?>
-<!--  ===================================================================
-      CMS SYSTEM PLUGIN BASIC
-	  Urheberrechtshinweis / Copyright
-
-	  Die Gestaltung, Inhalte und Programmierung dieser Seiten
-	  unterliegen dem Urheberrecht. Urheber ist Reiner Horn
-	  Eine Verwendung der Inhalte außerhalb der vom Urheber betriebenen
-	  Domains ist nicht gestattet. Ein Verstoß gegen diese Bestimmungen
-	  wird als Urheberrechtsverletzung betrachtet und bei Bekanntwerdung 
-	  unter Einsatz von Rechtsmitteln geahndet.
-      Verwndung von der leeren datenbank und code muss eine genehmigung
-      des Urhebers eingeholt werden.
-      Die Datenbank und der Code sind urheberrechtlich geschützt.
-      Die Verwendung der Datenbank und des Codes ist nur mit
-      ausdrücklicher Genehmigung des Urhebers gestattet.
-      Die Datenbank und der Code dürfen nicht ohne Genehmigung
-      des Urhebers kopiert, verbreitet oder veröffentlicht werden.
-      Drittanbieter-Plugins sind da von ausgeschlossen. 
-      phpmailer,Chats usw. ist ein Drittanbieter-Plugin und unterliegt
-      den Lizenzbedingungen des jeweiligen Autors.
-      Die CMS SYSTEM H & D ist ein Produkt von Reiner Horn.
-
-	 Reiner Horn
-	 Huaptstr. 8
-	 40597 Düsseldorf
-     horm.it@t-online.de
-===================================================================  -->
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>CMS SYSTEM  H & D</title>
+<title>Agentur / Webdesign / Dienstleistung / Personal / Vermittlung / Lohn</title>
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/style.css" media="screen">
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/checkbox.css" media="screen">
     <link title="H & D Dienstleistungen SRL" rel="stylesheet" type="text/css" href="/css/navi.css" media="screen">
@@ -158,6 +131,7 @@ if (!isset($_REQUEST['page'])) {
 
     $_REQUEST['page'] = $page['ts'];
     error_log("✅ Startseite gesetzt: " . $_REQUEST['page']);
+    echo "<!-- Startseite: " . $_REQUEST['page'] . " -->";
 }
 
 $page_output_all = [];
@@ -221,7 +195,11 @@ while ($record = $result->fetch_assoc()) {
     // Falls das Plugin nicht gefunden wurde, eine Fehlermeldung ausgeben
     if (!$plugin_found) {
         echo "Fehler: Plugin '" . $record['plugin_label'] . "' nicht gefunden!";
+        error_log("❌ Fehler: Plugin '" . $record['plugin_label'] . "' nicht gefunden für Seite " . $_REQUEST['page']);
     }
+
+    echo "<!-- Plugin geladen: " . $record['plugin_label'] . " für Seite " . $_REQUEST['page'] . " -->";
+    error_log("✅ Plugin '" . $record['plugin_label'] . "' geladen für Seite " . $_REQUEST['page']);
 }
 
 // Datenbankverbindung schließen

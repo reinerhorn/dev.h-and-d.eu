@@ -94,7 +94,13 @@ div form {margin-top: 0; width: 300px; padding: 40px;
 .input_color{color:black;
 }
 
-
+.holder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+  
+}
 
 div.visitors_container {
   bottom: 0;

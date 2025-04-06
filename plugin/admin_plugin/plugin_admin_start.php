@@ -181,15 +181,8 @@ $selected_footer = $footers[$selected_footer_id] ?? [
 ];
  ?>
  
- <!DOCTYPE html>
- <html lang="de">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Admin Header & Footer Editor</title>
-     <link rel="stylesheet" href="plugin_admin_footer_editor.css">
- </head>
- <body>
+  
+  
  
  <div class="admin_container">
      <!-- HEADER -->
@@ -267,6 +260,5 @@ $selected_footer = $footers[$selected_footer_id] ?? [
      </div>
    </div>               
  
- </body>
- </html>
+ 
  
