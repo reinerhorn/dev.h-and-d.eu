@@ -79,6 +79,9 @@ div {
 }
 </style>
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
 
 $main_db_connection = getDbConnection();

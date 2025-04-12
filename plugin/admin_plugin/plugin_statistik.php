@@ -26,10 +26,6 @@
 if (!isset($_SESSION['admin_a'])) {
 	header('Location:/index.php');
 }
-//  Zeile 1 spalte 1
-if (!isset($_SESSION['admin_a'])) {
-	header('Location:/index.php');
-}
  
     
 // besucher ip   Zeile 3 spalte 3

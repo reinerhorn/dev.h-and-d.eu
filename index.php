@@ -60,7 +60,7 @@ if (!$main_db_connection) {
     }
     $_SESSION['language'] = $language;
 
-   # echo '<!-- Debug: LanguageSelector geladen -->';
+   #echo '<!-- Debug: LanguageSelector geladen -->';
 
 ?>
 
@@ -203,7 +203,7 @@ while ($record = $result->fetch_assoc()) {
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_login/',
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_member/',
         $_SERVER['DOCUMENT_ROOT'] . '/plugin/plugin_cards/',
-        $_SERVER['DOCUMENT_ROOT'] . '/plugin/extra_plugin/',
+        $_SERVER['DOCUMENT_ROOT'] . '/plugin/extra_plugin/'
     ];
 
     $plugin_found = false;
