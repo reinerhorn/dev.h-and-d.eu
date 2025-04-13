@@ -23,7 +23,7 @@
 	 Reiner Horn
 	 Huaptstr. 8
 	 40597 Düsseldorf
-     horm.it@t-online.de
+     horn.it@t-online.de
 ===================================================================  -->
 <?php 
 session_start();
