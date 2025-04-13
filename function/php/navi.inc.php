@@ -28,7 +28,9 @@ if ($rec = $result->fetch_assoc()) {
     $page_id = (int) $rec['tsid'];
     $role = (int) $rec['role']; // Falls NULL, wird es 0 (öffentliche Seite)
 } else {
-    echo "Fehler: Kein Eintrag für $page_id gefunden!<br>";
+    #echo "Fehler: Kein Eintrag für $page_id gefunden!<br>";
+    header("Location: /error.php");
+exit;
 }
 $stmt->close();
 

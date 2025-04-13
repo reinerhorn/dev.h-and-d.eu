@@ -28,7 +28,7 @@ if (!isset($_SESSION['admin_a'])) {
 	header('Location:/index.php');
 } 
 
-include_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";   
+#include_once $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";   
 $connection = getDbConnection();
 $id=""; 
 $fk_page_id="";

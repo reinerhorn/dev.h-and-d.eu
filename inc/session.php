@@ -27,6 +27,7 @@
 ===================================================================  -->
 <?php 
 session_start();
+ob_start();
 include $_SERVER['DOCUMENT_ROOT'] . "/config/config.inc.php";
 
 $main_db_connection = getDbConnection();
@@ -195,4 +196,5 @@ function my_redirect($page_id) {
 			return "Fehler beim Senden: {$mail->ErrorInfo}";
 		}
 	}
+
 	?>
