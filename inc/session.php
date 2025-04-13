@@ -1,4 +1,5 @@
 <!--  ===================================================================
+      CMS SYSTEM PLUGIN BASIC
 	  Urheberrechtshinweis / Copyright
 
 	  Die Gestaltung, Inhalte und Programmierung dieser Seiten
@@ -14,6 +15,10 @@
       ausdrücklicher Genehmigung des Urhebers gestattet.
       Die Datenbank und der Code dürfen nicht ohne Genehmigung
       des Urhebers kopiert, verbreitet oder veröffentlicht werden.
+      Drittanbieter-Plugins sind da von ausgeschlossen. 
+      phpmailer,Chats usw. ist ein Drittanbieter-Plugin und unterliegt
+      den Lizenzbedingungen des jeweiligen Autors.
+      Die CMS SYSTEM H & D ist ein Produkt von Reiner Horn.
 
 	 Reiner Horn
 	 Huaptstr. 8

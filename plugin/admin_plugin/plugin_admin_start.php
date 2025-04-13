@@ -256,10 +256,7 @@ $selected_footer = $footers[$selected_footer_id] ?? [
              </div>
          </form>
      </div>
-     
-     <div class="admin_box">
-         <h2>XX bearbeiten</h2>
-     </div>
+
    </div>               
  
  

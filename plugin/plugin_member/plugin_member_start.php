@@ -23,6 +23,9 @@
 ===================================================================  -->
 
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
  $message="";
     if (isset($_SESSION['email'])) {
     } else {
